@@ -11,8 +11,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      child: ListView(
         children: [
           const Text('Profile'),
           const SizedBox(height: Insets.lg),

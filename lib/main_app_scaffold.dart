@@ -53,45 +53,40 @@ class _MainAppScaffoldState extends State<MainAppScaffold> {
           bottom: 0,
           child: SafeArea(
             bottom: false,
-            child: Column(
-              children: [
-                Container(height: 1, color: AppColors.of(context).dividerColor),
-                Theme(
-                  data: Theme.of(context).copyWith(
-                    splashFactory: NoSplash.splashFactory,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: Insets.sm,
-                      horizontal: Insets.xl,
-                    ),
-                    child: SalomonBottomBar(
-                      currentIndex: widget._bottomNavigationTabs.indexWhere(
-                        (tab) => GoRouter.of(context)
-                            .location
-                            .startsWith(tab.rootLocation),
-                      ),
-                      selectedItemColor: AppColors.of(context).primary,
-                      onTap: (tabIndex) => _onItemTapped(
-                        context,
-                        widget._bottomNavigationTabs[tabIndex].rootLocation,
-                      ),
-                      items: [
-                        for (var tab in widget._bottomNavigationTabs)
-                          SalomonBottomBarItem(
-                            icon: Icon(tab.icon),
-                            title: Text(
-                              tab.label,
-                              style: TextStyles.caption.copyWith(
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
+            child: Theme(
+              data: Theme.of(context).copyWith(
+                splashFactory: NoSplash.splashFactory,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: Insets.sm,
+                  horizontal: Insets.xl,
                 ),
-              ],
+                child: SalomonBottomBar(
+                  currentIndex: widget._bottomNavigationTabs.indexWhere(
+                    (tab) => GoRouter.of(context)
+                        .location
+                        .startsWith(tab.rootLocation),
+                  ),
+                  selectedItemColor: AppColors.of(context).primary,
+                  onTap: (tabIndex) => _onItemTapped(
+                    context,
+                    widget._bottomNavigationTabs[tabIndex].rootLocation,
+                  ),
+                  items: [
+                    for (var tab in widget._bottomNavigationTabs)
+                      SalomonBottomBarItem(
+                        icon: Icon(tab.icon),
+                        title: Text(
+                          tab.label,
+                          style: TextStyles.caption.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
             ),
           ),
         ),
