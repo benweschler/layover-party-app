@@ -39,7 +39,11 @@ class _LoginScreenState extends State<LoginScreen> {
     // entered.
     if (!areCredentialsEntered) return;
 
-    return LogInCommand.run('ben@test.com', 'test', context.read<AppModel>());
+    return LogInCommand.run(
+      _emailController.text.trim(),
+      _passwordController.text.trim(),
+      context.read<AppModel>(),
+    );
   }
 
   /*

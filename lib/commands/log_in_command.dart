@@ -15,8 +15,9 @@ abstract class LogInCommand {
     final Uri url = Uri.https(Endpoints.authority, Endpoints.logIn);
 
     final Response response =
-    await networkPost(url, generateRequestBody(email, password));
+        await networkPost(url, generateRequestBody(email, password));
 
+    //TODO: implement error handling
     if (response.statusCode >= 400) {
       print('Server error: ${response.body} ${response.statusCode}');
       throw Exception('Server error');
@@ -36,6 +37,9 @@ abstract class LogInCommand {
   }
 
   static Map<String, dynamic> generateRequestBody(
-          String email, String password) =>
-      {'email': email, 'password': password};
+    String email,
+    String password,
+  ) {
+    return {'email': email, 'password': password};
+  }
 }
