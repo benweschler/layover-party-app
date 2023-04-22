@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:layover_party/main_app_scaffold.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
-import 'package:layover_party/screens/login_screen.dart';
+import 'package:layover_party/screens/login_screen/login_screen.dart';
 import 'package:layover_party/screens/parties_screen.dart';
 import 'package:layover_party/screens/profile_screen/profile_screen.dart';
 import 'package:layover_party/screens/search_screen.dart';
@@ -13,7 +13,11 @@ import 'models/app_model.dart';
 
 abstract class RoutePaths {
   static String splash = '/';
-  static String login = '/login';
+  static String login = '/log-in';
+  //TODO: unimplemented
+  static String signUp = '/sign-up';
+  //TODO: unimplemented
+  static String forgotPassword = '/forgot-password';
   static String search = '/search';
   static String parties = '/parties';
   static String profile = '/profile';
