@@ -43,9 +43,7 @@ class MyApp extends StatelessWidget {
 
   /// Whether the app's current theme is dark.
   bool _resolveIsDark(BuildContext context) {
-    switch (context
-        .read<AppModel>()
-        .themeMode) {
+    switch (context.read<AppModel>().themeMode) {
       case ThemeMode.system:
         return MediaQuery.platformBrightnessOf(context) == Brightness.dark;
       case ThemeMode.light:

@@ -10,6 +10,7 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color secondary;
   final Color scaffoldBackgroundColor;
   final Color dividerColor;
+  final Color tabHighlightColor;
   final bool isDark;
 
   const AppColors._({
@@ -17,6 +18,7 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.secondary,
     required this.scaffoldBackgroundColor,
     required this.dividerColor,
+    required this.tabHighlightColor,
     required this.isDark,
   });
 
@@ -28,6 +30,7 @@ class AppColors extends ThemeExtension<AppColors> {
           secondary: _secondaryBlue,
           scaffoldBackgroundColor: Colors.white,
           dividerColor: Colors.black.withOpacity(0.1),
+          tabHighlightColor: _primaryOrange.withOpacity(0.2),
           isDark: false,
         );
       case ThemeType.dark:
@@ -36,6 +39,7 @@ class AppColors extends ThemeExtension<AppColors> {
           secondary: _secondaryBlue,
           scaffoldBackgroundColor: Colors.black,
           dividerColor: Colors.white.withOpacity(0.5),
+          tabHighlightColor: _primaryOrange.withOpacity(0.5),
           isDark: true,
         );
     }
@@ -70,6 +74,7 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? secondary,
     Color? scaffoldBackgroundColor,
     Color? dividerColor,
+    Color? tabHighlightColor,
     bool? isDark,
   }) {
     return AppColors._(
@@ -77,6 +82,7 @@ class AppColors extends ThemeExtension<AppColors> {
       secondary: secondary ?? this.secondary,
       scaffoldBackgroundColor: scaffoldBackgroundColor ?? this.scaffoldBackgroundColor,
       dividerColor: dividerColor ?? this.dividerColor,
+      tabHighlightColor: tabHighlightColor ?? this.tabHighlightColor,
       isDark: isDark ?? this.isDark,
     );
   }
@@ -90,6 +96,7 @@ class AppColors extends ThemeExtension<AppColors> {
       secondary: Color.lerp(secondary, other.secondary, t)!,
       scaffoldBackgroundColor: Color.lerp(scaffoldBackgroundColor, other.scaffoldBackgroundColor, t)!,
       dividerColor: Color.lerp(dividerColor, other.dividerColor, t)!,
+      tabHighlightColor: Color.lerp(tabHighlightColor, other.tabHighlightColor, t)!,
       isDark: t < 0.5 ? isDark : other.isDark,
     );
   }

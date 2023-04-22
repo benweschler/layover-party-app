@@ -111,7 +111,7 @@ class CustomNavigationBar extends StatelessWidget {
   }
 }
 
-class NavigationBarButton extends StatelessWidget {
+class NavigationBarButton extends StatefulWidget {
   final IconData icon;
   final String label;
   final bool isActive;
@@ -126,17 +126,84 @@ class NavigationBarButton extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<NavigationBarButton> createState() => _NavigationBarButtonState();
+}
+
+class _NavigationBarButtonState extends State<NavigationBarButton>
+    with SingleTickerProviderStateMixin {
+  late final _controller = AnimationController(
+    duration: Timings.short,
+    vsync: this,
+  );
+  late final _fadeAnimation =
+      Tween<double>(begin: 0, end: 1).animate(_controller);
+  late final _scaleAnimation =
+      Tween<double>(begin: 1.5, end: 1).animate(_controller);
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.isActive) {
+      // If the button is not active, begin with the selector faded out.
+      _controller.value = 1;
+    }
+  }
+
+  @override
+  void didUpdateWidget(covariant NavigationBarButton oldWidget) {
+    if (widget.isActive != oldWidget.isActive) {
+      widget.isActive ? _controller.forward() : _controller.reverse();
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final Widget activeTabHighlight = Transform(
+      transform: Matrix4.skewX(0.35),
+      alignment: Alignment.center,
+      child: Container(
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: AppColors.of(context).tabHighlightColor,
+        ),
+      ),
+    );
+
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
-      onTap: onTap,
+      onTap: widget.onTap,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: _kNavBarIconSize),
+          Stack(
+            children: [
+              Positioned.fill(
+                child: FadeTransition(
+                  opacity: _fadeAnimation,
+                  child: ScaleTransition(
+                    scale: _scaleAnimation,
+                    child: activeTabHighlight,
+                  ),
+                ),
+              ),
+              // Add padding around the icon to make the active tab highlight
+              // larger.
+              Padding(
+                padding: const EdgeInsets.all(1),
+                child: Icon(widget.icon, size: _kNavBarIconSize),
+              ),
+            ],
+          ),
           const SizedBox(height: Insets.xs),
           Text(
-            label,
+            widget.label,
             style: TextStyles.caption.copyWith(fontWeight: FontWeight.w600),
           ),
         ],
