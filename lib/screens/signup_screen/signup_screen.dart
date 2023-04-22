@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:go_router/go_router.dart';
 import 'package:layover_party/models/app_model.dart';
-import 'package:layover_party/router.dart';
 import 'package:layover_party/styles/styles.dart';
 import 'package:layover_party/styles/theme.dart';
 import 'package:layover_party/utils/validators.dart';
 import 'package:layover_party/widgets/buttons/async_action_button.dart';
-import 'package:layover_party/widgets/buttons/responsive_buttons.dart';
+import 'package:layover_party/widgets/custom_back_button.dart';
 import 'package:layover_party/widgets/custom_input_decoration.dart';
 import 'package:layover_party/widgets/custom_scaffold.dart';
 import 'package:provider/provider.dart';
@@ -37,10 +35,7 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      leading: ResponsiveStrokeButton(
-        onTap: () => context.go(RoutePaths.logIn),
-        child: const Icon(Icons.arrow_back_ios_rounded),
-      ),
+      leading: const CustomBackButton(),
       child: Center(
         child: SingleChildScrollView(
           child: FormBuilder(

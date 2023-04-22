@@ -22,6 +22,7 @@ AppUser _$AppUserFromJson(Map<String, dynamic> json) {
 mixin _$AppUser {
   String get email => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
+  String get authToken => throw _privateConstructorUsedError;
   String get profilePicURL => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
 
@@ -35,7 +36,12 @@ abstract class $AppUserCopyWith<$Res> {
   factory $AppUserCopyWith(AppUser value, $Res Function(AppUser) then) =
       _$AppUserCopyWithImpl<$Res, AppUser>;
   @useResult
-  $Res call({String email, String id, String profilePicURL, String name});
+  $Res call(
+      {String email,
+      String id,
+      String authToken,
+      String profilePicURL,
+      String name});
 }
 
 /// @nodoc
@@ -53,6 +59,7 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
   $Res call({
     Object? email = null,
     Object? id = null,
+    Object? authToken = null,
     Object? profilePicURL = null,
     Object? name = null,
   }) {
@@ -64,6 +71,10 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      authToken: null == authToken
+          ? _value.authToken
+          : authToken // ignore: cast_nullable_to_non_nullable
               as String,
       profilePicURL: null == profilePicURL
           ? _value.profilePicURL
@@ -84,7 +95,12 @@ abstract class _$$_AppUserCopyWith<$Res> implements $AppUserCopyWith<$Res> {
       __$$_AppUserCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String email, String id, String profilePicURL, String name});
+  $Res call(
+      {String email,
+      String id,
+      String authToken,
+      String profilePicURL,
+      String name});
 }
 
 /// @nodoc
@@ -99,6 +115,7 @@ class __$$_AppUserCopyWithImpl<$Res>
   $Res call({
     Object? email = null,
     Object? id = null,
+    Object? authToken = null,
     Object? profilePicURL = null,
     Object? name = null,
   }) {
@@ -110,6 +127,10 @@ class __$$_AppUserCopyWithImpl<$Res>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      authToken: null == authToken
+          ? _value.authToken
+          : authToken // ignore: cast_nullable_to_non_nullable
               as String,
       profilePicURL: null == profilePicURL
           ? _value.profilePicURL
@@ -129,6 +150,7 @@ class _$_AppUser with DiagnosticableTreeMixin implements _AppUser {
   const _$_AppUser(
       {required this.email,
       required this.id,
+      required this.authToken,
       required this.profilePicURL,
       required this.name});
 
@@ -140,13 +162,15 @@ class _$_AppUser with DiagnosticableTreeMixin implements _AppUser {
   @override
   final String id;
   @override
+  final String authToken;
+  @override
   final String profilePicURL;
   @override
   final String name;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AppUser(email: $email, id: $id, profilePicURL: $profilePicURL, name: $name)';
+    return 'AppUser(email: $email, id: $id, authToken: $authToken, profilePicURL: $profilePicURL, name: $name)';
   }
 
   @override
@@ -156,6 +180,7 @@ class _$_AppUser with DiagnosticableTreeMixin implements _AppUser {
       ..add(DiagnosticsProperty('type', 'AppUser'))
       ..add(DiagnosticsProperty('email', email))
       ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('authToken', authToken))
       ..add(DiagnosticsProperty('profilePicURL', profilePicURL))
       ..add(DiagnosticsProperty('name', name));
   }
@@ -167,6 +192,8 @@ class _$_AppUser with DiagnosticableTreeMixin implements _AppUser {
             other is _$_AppUser &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.authToken, authToken) ||
+                other.authToken == authToken) &&
             (identical(other.profilePicURL, profilePicURL) ||
                 other.profilePicURL == profilePicURL) &&
             (identical(other.name, name) || other.name == name));
@@ -174,7 +201,8 @@ class _$_AppUser with DiagnosticableTreeMixin implements _AppUser {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, email, id, profilePicURL, name);
+  int get hashCode =>
+      Object.hash(runtimeType, email, id, authToken, profilePicURL, name);
 
   @JsonKey(ignore: true)
   @override
@@ -194,6 +222,7 @@ abstract class _AppUser implements AppUser {
   const factory _AppUser(
       {required final String email,
       required final String id,
+      required final String authToken,
       required final String profilePicURL,
       required final String name}) = _$_AppUser;
 
@@ -203,6 +232,8 @@ abstract class _AppUser implements AppUser {
   String get email;
   @override
   String get id;
+  @override
+  String get authToken;
   @override
   String get profilePicURL;
   @override

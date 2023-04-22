@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:layover_party/models/app_model.dart';
 import 'package:layover_party/router.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,9 @@ import 'package:provider/provider.dart';
 import 'package:layover_party/styles/theme.dart';
 
 void main() {
+  // Remove '#' from web URL.
+  usePathUrlStrategy();
+
   final appModel = AppModel();
 
   runApp(MultiProvider(

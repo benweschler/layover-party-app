@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:layover_party/main_app_scaffold.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
+import 'package:layover_party/screens/forgot_password_screen.dart';
 import 'package:layover_party/screens/login_screen/login_screen.dart';
 import 'package:layover_party/screens/parties_screen.dart';
 import 'package:layover_party/screens/profile_screen/profile_screen.dart';
@@ -16,8 +17,6 @@ abstract class RoutePaths {
   static String splash = '/';
   static String logIn = '/log-in';
   static String signUp = '/sign-up';
-
-  //TODO: unimplemented
   static String forgotPassword = '/forgot-password';
   static String search = '/search';
   static String parties = '/parties';
@@ -52,6 +51,10 @@ class AppRouter {
           path: RoutePaths.signUp,
           builder: (_) => SignUpScreen(),
         ),
+        AppRoute(
+          path: RoutePaths.forgotPassword,
+          builder: (_) => const ForgotPasswordScreen(),
+        ),
         ShellRoute(
           navigatorKey: _navBarNavigatorKey,
           builder: (_, __, child) => MainAppScaffold(body: child),
@@ -82,7 +85,8 @@ class AppRouter {
 
     if (!appModel.isLoggedIn &&
         path != RoutePaths.logIn &&
-        path != RoutePaths.signUp) {
+        path != RoutePaths.signUp &&
+        path != RoutePaths.forgotPassword) {
       return RoutePaths.logIn;
     } else if (appModel.isLoggedIn) {
       if (!appModel.isInitialized && path != RoutePaths.splash) {
@@ -134,21 +138,6 @@ class AppRoute extends GoRoute {
             return CupertinoPage(child: builder!(state));
           },
         );
-}
-
-/// Appropriately appends to a route path in order to add [queryParams].
-String _appendQueryParams(String path, Map<String, String?> queryParams) {
-  if (queryParams.isEmpty) return path;
-  path += '?';
-
-  int index = 0;
-  for (final entry in queryParams.entries) {
-    if (entry.value == null) continue;
-    path += '${entry.key}=${entry.value}';
-    if (index < queryParams.length - 1) path += '&';
-  }
-
-  return path;
 }
 
 /// Converts a [Stream] to a [Listenable], which can then be passed as a

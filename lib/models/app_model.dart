@@ -44,8 +44,14 @@ class AppModel extends EasyNotifier {
 
   bool get isLoggedIn => _isLoggedIn;
 
-  set isLoggedIn(bool value) =>
-      routerRefreshNotifier.notify(() => _isLoggedIn = value);
+  set isLoggedIn(bool value) {
+    if(value == false) {
+      _user = null;
+      _isInitialized = false;
+    }
+
+    routerRefreshNotifier.notify(() => _isLoggedIn = value);
+  }
 
   bool get isInitialized => _isInitialized;
 

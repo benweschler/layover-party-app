@@ -10,6 +10,7 @@ class AppUser with _$AppUser {
   const factory AppUser({
     required String email,
     required String id,
+    required String authToken,
     required String profilePicURL,
     required String name,
   }) = _AppUser;

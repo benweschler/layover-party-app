@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:layover_party/data/app_user.dart';
+import 'package:layover_party/commands/log_in_command.dart';
 import 'package:layover_party/models/app_model.dart';
 import 'package:layover_party/router.dart';
 import 'package:layover_party/styles/styles.dart';
@@ -39,23 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
     // entered.
     if (!areCredentialsEntered) return;
 
-    context.read<AppModel>().isLoggedIn = true;
-
-    //TODO: dummy user
-    context.read<AppModel>().user = const AppUser(
-      email: 'benjaminweschler@gmail.com',
-      id: 'id',
-      profilePicURL: 'profile-pic-url',
-      name: 'Ben',
-    );
-
-    /*
-    //TODO: implmement
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: _emailController.text.trim(),
-      password: _passwordController.text.trim(),
-    );
-     */
+    return LogInCommand.run('ben@test.com', 'test', context.read<AppModel>());
   }
 
   /*
@@ -119,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Align(
                     alignment: Alignment.centerRight,
                     child: ResponsiveStrokeButton(
-                      onTap: () => context.go(RoutePaths.forgotPassword),
+                      onTap: () => context.push(RoutePaths.forgotPassword),
                       child: Text(
                         'Forgot Password',
                         style: TextStyles.body2.copyWith(
