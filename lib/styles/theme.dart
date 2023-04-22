@@ -8,17 +8,19 @@ class AppColors extends ThemeExtension<AppColors> {
 
   final Color primary;
   final Color secondary;
-  final Color scaffoldBackgroundColor;
+  final Color largeSurface;
   final Color dividerColor;
   final Color tabHighlightColor;
+  final Color responsiveOverlayColor;
   final bool isDark;
 
   const AppColors._({
     required this.primary,
     required this.secondary,
-    required this.scaffoldBackgroundColor,
+    required this.largeSurface,
     required this.dividerColor,
     required this.tabHighlightColor,
+    required this.responsiveOverlayColor,
     required this.isDark,
   });
 
@@ -28,18 +30,20 @@ class AppColors extends ThemeExtension<AppColors> {
         return AppColors._(
           primary: _primaryOrange,
           secondary: _secondaryBlue,
-          scaffoldBackgroundColor: Colors.white,
-          dividerColor: Colors.black.withOpacity(0.1),
+          largeSurface: Colors.black.withOpacity(0.04),
+          dividerColor: const Color(0xFFCAC4D0),
           tabHighlightColor: _primaryOrange.withOpacity(0.2),
+          responsiveOverlayColor: Colors.white.withOpacity(0.5),
           isDark: false,
         );
       case ThemeType.dark:
         return AppColors._(
           primary: _primaryOrange,
           secondary: _secondaryBlue,
-          scaffoldBackgroundColor: Colors.black,
-          dividerColor: Colors.white.withOpacity(0.5),
-          tabHighlightColor: _primaryOrange.withOpacity(0.5),
+          largeSurface: Colors.white.withOpacity(0.04),
+          dividerColor: const Color(0xFF49454F),
+          tabHighlightColor: _primaryOrange.withOpacity(0.4),
+          responsiveOverlayColor: Colors.black.withOpacity(0.5),
           isDark: true,
         );
     }
@@ -49,7 +53,6 @@ class AppColors extends ThemeExtension<AppColors> {
     final themeData = ThemeData(
       useMaterial3: true,
       brightness: isDark ? Brightness.dark : Brightness.light,
-      scaffoldBackgroundColor: scaffoldBackgroundColor,
       dividerColor: dividerColor,
       checkboxTheme: const CheckboxThemeData(
         splashRadius: 0,
@@ -72,17 +75,20 @@ class AppColors extends ThemeExtension<AppColors> {
   AppColors copyWith({
     Color? primary,
     Color? secondary,
+    Color? largeSurface,
     Color? scaffoldBackgroundColor,
     Color? dividerColor,
     Color? tabHighlightColor,
+    Color? responsiveOverlayColor,
     bool? isDark,
   }) {
     return AppColors._(
       primary: primary ?? this.primary,
       secondary: secondary ?? this.secondary,
-      scaffoldBackgroundColor: scaffoldBackgroundColor ?? this.scaffoldBackgroundColor,
+      largeSurface: largeSurface ?? this.largeSurface,
       dividerColor: dividerColor ?? this.dividerColor,
       tabHighlightColor: tabHighlightColor ?? this.tabHighlightColor,
+      responsiveOverlayColor: responsiveOverlayColor ?? this.responsiveOverlayColor,
       isDark: isDark ?? this.isDark,
     );
   }
@@ -94,9 +100,10 @@ class AppColors extends ThemeExtension<AppColors> {
     return AppColors._(
       primary: Color.lerp(primary, other.primary, t)!,
       secondary: Color.lerp(secondary, other.secondary, t)!,
-      scaffoldBackgroundColor: Color.lerp(scaffoldBackgroundColor, other.scaffoldBackgroundColor, t)!,
+      largeSurface: Color.lerp(largeSurface, other.largeSurface, t)!,
       dividerColor: Color.lerp(dividerColor, other.dividerColor, t)!,
       tabHighlightColor: Color.lerp(tabHighlightColor, other.tabHighlightColor, t)!,
+      responsiveOverlayColor: Color.lerp(responsiveOverlayColor, other.responsiveOverlayColor, t)!,
       isDark: t < 0.5 ? isDark : other.isDark,
     );
   }

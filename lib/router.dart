@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:layover_party/screens/login_screen.dart';
 import 'package:layover_party/screens/parties_screen.dart';
-import 'package:layover_party/screens/profile_screen.dart';
+import 'package:layover_party/screens/profile_screen/profile_screen.dart';
 import 'package:layover_party/screens/search_screen.dart';
 import 'package:layover_party/screens/splash_screen.dart';
 
