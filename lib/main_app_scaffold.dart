@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:layover_party/router.dart';
 import 'package:layover_party/styles/styles.dart';
 import 'package:layover_party/styles/theme.dart';
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 const double _kNavBarIconSize = 24;
 
@@ -50,13 +51,58 @@ class _MainAppScaffoldState extends State<MainAppScaffold> {
           left: 0,
           right: 0,
           bottom: 0,
-          child: CustomNavigationBar(
-            tabs: widget._bottomNavigationTabs,
-            selectedRoutePath: GoRouter.of(context).location,
+          child: SafeArea(
+            bottom: false,
+            child: Column(
+              children: [
+                Container(height: 1, color: AppColors.of(context).dividerColor),
+                Theme(
+                  data: Theme.of(context).copyWith(
+                    splashFactory: NoSplash.splashFactory,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: Insets.sm,
+                      horizontal: Insets.xl,
+                    ),
+                    child: SalomonBottomBar(
+                      currentIndex: widget._bottomNavigationTabs.indexWhere(
+                        (tab) => GoRouter.of(context)
+                            .location
+                            .startsWith(tab.rootLocation),
+                      ),
+                      selectedItemColor: AppColors.of(context).primary,
+                      onTap: (tabIndex) => _onItemTapped(
+                        context,
+                        widget._bottomNavigationTabs[tabIndex].rootLocation,
+                      ),
+                      items: [
+                        for (var tab in widget._bottomNavigationTabs)
+                          SalomonBottomBarItem(
+                            icon: Icon(tab.icon),
+                            title: Text(
+                              tab.label,
+                              style: TextStyles.caption.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ],
     );
+  }
+
+  void _onItemTapped(BuildContext context, String rootLocation) {
+    if (rootLocation == GoRouter.of(context).location) return;
+    HapticFeedback.lightImpact();
+    context.go(rootLocation);
   }
 }
 
