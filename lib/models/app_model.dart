@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart' show ThemeMode;
+import 'package:layover_party/data/app_user.dart';
 import 'package:layover_party/styles/theme.dart';
 import 'package:layover_party/utils/easy_notifier.dart';
 
 class AppModel extends EasyNotifier {
   final EasyNotifier routerRefreshNotifier = EasyNotifier();
+
+  /// The user that is currently signed in.
+  AppUser? _user;
 
   /// Whether a user is logged into the app.
   bool _isLoggedIn = false;
@@ -13,6 +17,16 @@ class AppModel extends EasyNotifier {
 
   /// The active theme for the app.
   ThemeMode _themeMode = ThemeMode.light;
+
+  AppUser get user {
+    if (_user == null) {
+      throw Exception('The user was accessed when no user is logged in.');
+    }
+
+    return _user!;
+  }
+
+  set user(AppUser? user) => notify(() => _user = user);
 
   ThemeMode get themeMode => _themeMode;
 

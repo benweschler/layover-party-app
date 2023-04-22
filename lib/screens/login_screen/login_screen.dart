@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:layover_party/data/app_user.dart';
 import 'package:layover_party/models/app_model.dart';
 import 'package:layover_party/router.dart';
 import 'package:layover_party/styles/styles.dart';
@@ -39,6 +40,15 @@ class _LoginScreenState extends State<LoginScreen> {
     if (!areCredentialsEntered) return;
 
     context.read<AppModel>().isLoggedIn = true;
+
+    //TODO: dummy user
+    context.read<AppModel>().user = const AppUser(
+      email: 'benjaminweschler@gmail.com',
+      id: 'id',
+      profilePicURL: 'profile-pic-url',
+      name: 'Ben',
+    );
+
     /*
     //TODO: implmement
     await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -133,7 +143,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     label: 'Log In',
                     isEnabled: areCredentialsEntered,
                     action: logIn,
-                    catchError: (_) {},//catchLoginError,
+                    catchError: (_) {}, //catchLoginError,
                   ),
                   const SizedBox(height: Insets.sm),
                   const GoToSignUpButton(),
@@ -153,8 +163,6 @@ class GoToSignUpButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ResponsiveStrokeButton(
-      // Go must be used in order to play a page transition animation when
-      // navigating back to the login screen.
       onTap: () => context.push(RoutePaths.signUp),
       child: Center(
         child: Padding(

@@ -7,15 +7,16 @@ import 'package:layover_party/screens/login_screen/login_screen.dart';
 import 'package:layover_party/screens/parties_screen.dart';
 import 'package:layover_party/screens/profile_screen/profile_screen.dart';
 import 'package:layover_party/screens/search_screen.dart';
+import 'package:layover_party/screens/signup_screen/signup_screen.dart';
 import 'package:layover_party/screens/splash_screen.dart';
 
 import 'models/app_model.dart';
 
 abstract class RoutePaths {
   static String splash = '/';
-  static String login = '/log-in';
-  //TODO: unimplemented
+  static String logIn = '/log-in';
   static String signUp = '/sign-up';
+
   //TODO: unimplemented
   static String forgotPassword = '/forgot-password';
   static String search = '/search';
@@ -43,9 +44,13 @@ class AppRouter {
           builder: (_) => const SplashScreen(),
         ),
         AppRoute(
-          path: RoutePaths.login,
+          path: RoutePaths.logIn,
           isNavBarTab: true,
           builder: (_) => const LoginScreen(),
+        ),
+        AppRoute(
+          path: RoutePaths.signUp,
+          builder: (_) => SignUpScreen(),
         ),
         ShellRoute(
           navigatorKey: _navBarNavigatorKey,
@@ -75,8 +80,10 @@ class AppRouter {
   String? redirectNavigation(BuildContext context, GoRouterState state) {
     final path = state.subloc;
 
-    if (!appModel.isLoggedIn && path != RoutePaths.login) {
-      return RoutePaths.login;
+    if (!appModel.isLoggedIn &&
+        path != RoutePaths.logIn &&
+        path != RoutePaths.signUp) {
+      return RoutePaths.logIn;
     } else if (appModel.isLoggedIn) {
       if (!appModel.isInitialized && path != RoutePaths.splash) {
         //TODO: initialize app here
