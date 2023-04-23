@@ -6,6 +6,10 @@ import 'package:layover_party/data/trip/trip.dart';
 import 'package:layover_party/models/trip_model.dart';
 import 'package:layover_party/screens/trips_screen/local_theme.dart';
 import 'package:layover_party/utils/iterable_utils.dart';
+import 'package:layover_party/utils/navigator_utils.dart';
+import 'package:layover_party/widgets/buttons/async_action_button.dart';
+import 'package:layover_party/widgets/buttons/responsive_buttons.dart';
+import 'package:layover_party/widgets/custom_input_decoration.dart';
 import 'package:layover_party/widgets/custom_scaffold.dart';
 import 'package:layover_party/widgets/folding_ticket/ticket_segment.dart';
 import 'package:layover_party/screens/trips_screen/trip_details_segment.dart';
@@ -13,6 +17,7 @@ import 'package:layover_party/screens/trips_screen/trip_preview_segment.dart';
 import 'package:layover_party/styles/styles.dart';
 import 'package:layover_party/styles/theme.dart';
 import 'package:layover_party/widgets/folding_ticket/ticket.dart';
+import 'package:layover_party/widgets/modal_sheets/modal_sheet.dart';
 import 'package:provider/provider.dart';
 
 import 'add_trip_button.dart';
@@ -130,16 +135,22 @@ class AirportSearchBar extends StatelessWidget {
       decoration: floatingEntryDecoration,
       child: Row(
         children: [
-          Text(
-            'SFO',
-            style: TextStyles.body1.copyWith(fontWeight: FontWeight.w600),
+          ResponsiveStrokeButton(
+            onTap: () => context.showModal(const SearchAirportModal()),
+            child: Text(
+              'SFO',
+              style: TextStyles.body1.copyWith(fontWeight: FontWeight.w600),
+            ),
           ),
           const SizedBox(width: Insets.sm),
           const Icon(Icons.arrow_forward),
           const SizedBox(width: Insets.sm),
-          Text(
-            'LAX',
-            style: TextStyles.body1.copyWith(fontWeight: FontWeight.w600),
+          ResponsiveStrokeButton(
+            onTap: () => context.showModal(const SearchAirportModal()),
+            child: Text(
+              'LAX',
+              style: TextStyles.body1.copyWith(fontWeight: FontWeight.w600),
+            ),
           ),
         ],
       ),
@@ -183,6 +194,41 @@ class DateSelector extends StatelessWidget {
           const Icon(Icons.calendar_today_outlined),
           const SizedBox(width: Insets.sm),
         ],
+      ),
+    );
+  }
+}
+
+class SearchAirportModal extends StatefulWidget {
+  const SearchAirportModal({Key? key}) : super(key: key);
+
+  @override
+  State<SearchAirportModal> createState() => _SearchAirportModalState();
+}
+
+class _SearchAirportModalState extends State<SearchAirportModal> {
+  final TextEditingController _controller = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return ModalSheet(
+      child: Padding(
+        padding: const EdgeInsets.all(Insets.offset),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              decoration: CustomInputDecoration(AppColors.of(context),
+                  hintText: 'Enter an airport code'),
+            ),
+            const SizedBox(height: Insets.lg),
+            AsyncActionButton(
+              label: 'Search',
+              action: () {},
+              catchError: (_) {},
+            ),
+          ],
+        ),
       ),
     );
   }
