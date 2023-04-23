@@ -18,17 +18,27 @@ class SearchScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
-      child: ListView(
-        children: [
-          const Text('Search', style: TextStyles.h1),
-          const SizedBox(height: Insets.lg),
-          TripPreviewCard(DummyData.dummyTrip, isDark: false),
-          const SizedBox(height: Insets.med),
-          TripDetailsCard(DummyData.dummyTrip),
-          const SizedBox(height: Insets.med),
-          AddTripButton(onTap: () {}),
+    return Theme(
+      data: Theme.of(context).copyWith(
+        extensions: <ThemeExtension<dynamic>>[
+          AppColors.of(context).copyWith(
+            primary: const Color(0xFFba26d1),
+            secondary: const Color(0xFF5100B8),
+          ),
         ],
+      ),
+      child: CustomScaffold(
+        child: ListView(
+          children: [
+            const Text('Search', style: TextStyles.h1),
+            const SizedBox(height: Insets.lg),
+            TripPreviewCard(DummyData.dummyTrip, isDark: false),
+            const SizedBox(height: Insets.med),
+            TripDetailsCard(DummyData.dummyTrip),
+            const SizedBox(height: Insets.med),
+            AddTripButton(onTap: () {}),
+          ],
+        ),
       ),
     );
   }
@@ -249,8 +259,6 @@ class TripDetailsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final layovers = trip.layovers;
-
     return Container(
       padding: const EdgeInsets.symmetric(
         vertical: Insets.sm,
@@ -270,7 +278,7 @@ class TripDetailsCard extends StatelessWidget {
       child: Column(
         children: [
           Row(
-            children: layovers
+            children: trip.layovers
                 .map((layover) => DurationText(
                       duration: layover.duration,
                       digitStyle: TextStyles.h2.copyWith(
@@ -286,7 +294,7 @@ class TripDetailsCard extends StatelessWidget {
                 .toList(),
           ),
           Row(
-            children: layovers
+            children: trip.layovers
                 .map((layover) => CityText(layover.airport.city))
                 .map((e) => Expanded(child: Center(child: e)))
                 .toList(),
@@ -320,7 +328,7 @@ class AirportRow extends StatelessWidget {
               .map<Widget>((code) => Text(code, style: codeStyle))
               .separate(Expanded(
                 child: DottedLine(
-                  dashColor: AppColors.of(context).secondary,
+                  dashColor: Colors.black.withOpacity(0.7),
                   dashLength: 2,
                   dashGapLength: 5,
                   lineThickness: 2,
@@ -333,8 +341,11 @@ class AirportRow extends StatelessWidget {
         ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children:
-              _buildCodeRow(AppColors.of(context), airportCodes, codeStyle),
+          children: _buildCodeRow(
+            AppColors.of(context),
+            airportCodes,
+            codeStyle,
+          ),
         ),
       ],
     );
@@ -342,31 +353,33 @@ class AirportRow extends StatelessWidget {
 
   List<Widget> _buildCodeRow(
       AppColors appColors, Iterable<String> airportCodes, TextStyle codeStyle) {
-    final durationStyle =
-        TextStyles.caption.copyWith(color: appColors.secondary);
+    final durationStyle = TextStyles.caption.copyWith(
+      color: Colors.black,
+    );
 
     final codeWidgets = [
       ...airportCodes
-          .map<Widget>(
-            (code) => Text(
-              code,
-              style: codeStyle.copyWith(color: Colors.transparent),
-            ),
-          )
+          .map<Widget>((code) => Text(
+                code,
+                style: codeStyle.copyWith(color: Colors.transparent),
+              ))
           .toList()
     ];
 
-    List<Widget> durationWidgets = trip.layovers
-        .map((layover) => Expanded(
+    List<Widget> durationWidgets = trip.flights
+        .map((flight) {
+          return Expanded(
               child: Center(
                 child: DurationText(
-                  duration: layover.duration,
-                  digitStyle:
-                      durationStyle.copyWith(fontWeight: FontWeight.w600),
+                  duration: flight.arrival.difference(flight.departure),
+                  digitStyle: durationStyle.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
                   unitStyle: durationStyle,
                 ),
               ),
-            ))
+            );
+        })
         .toList();
 
     int i = 0;

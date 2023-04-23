@@ -38,7 +38,7 @@ abstract class DummyData {
         origin: const Airport(code: 'SFO', city: 'San Fransisco'),
         destination: const Airport(code: 'CAN', city: 'Cancun'),
         departure: DateTime(2023, 5, 24, 18),
-        arrival: DateTime(2023, 5, 25, 3),
+        arrival: DateTime(2023, 5, 25, 5),
         flightNumber: 'NK234',
       );
 

@@ -12,6 +12,17 @@ abstract class LogInCommand {
     String password,
     AppModel appModel,
   ) async {
+    //TODO: dead server
+    appModel.user = AppUser(
+      email: 'benjaminweschler@gmail.com',
+      id: 'slkdfja',
+      authToken: 'asdlkfe',
+      profilePicURL: null,
+      name: 'Ben',
+    );
+
+    appModel.isLoggedIn = true;
+    return;
     final Uri url = Uri.https(Endpoints.authority, Endpoints.logIn);
 
     final Response response =
