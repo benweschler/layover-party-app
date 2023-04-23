@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:layover_party/data/trip/trip.dart';
 import 'package:layover_party/styles/styles.dart';
 import 'package:layover_party/styles/theme.dart';
+import 'package:layover_party/utils/stat_utils.dart';
 import 'package:layover_party/widgets/custom_divider.dart';
 
 import 'animated_plane_path.dart';
@@ -16,10 +17,12 @@ class TripSummarySegment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final headingStyle = TextStyles.h1.copyWith(
+    final headingStyle = TextStyles.h2.copyWith(
+      fontSize: 24,
       color: Colors.white,
       fontWeight: FontWeight.w600,
     );
+    final unitStyle = TextStyles.title.copyWith(color: Colors.white);
     final captionStyle = TextStyles.caption.copyWith(
       color: AppColors.of(context).neutralOnContainer,
     );
@@ -60,7 +63,13 @@ class TripSummarySegment extends StatelessWidget {
               Expanded(
                 child: Column(
                   children: [
-                    Text("40H", style: headingStyle),
+                    Text.rich(TextSpan(
+                      children: formatDuration(
+                        duration: const Duration(hours: 40, minutes: 15),
+                        digitStyle: headingStyle,
+                        unitStyle: unitStyle,
+                      ),
+                    )),
                     Text("Total Layover", style: captionStyle),
                   ],
                 ),
@@ -69,7 +78,10 @@ class TripSummarySegment extends StatelessWidget {
               Expanded(
                 child: Column(
                   children: [
-                    Text("1.4K", style: headingStyle),
+                    Text.rich(TextSpan(children: [
+                      TextSpan(text: '1.4', style: headingStyle),
+                      TextSpan(text: 'K', style: unitStyle),
+                    ])),
                     Text("Total Partiers", style: captionStyle),
                   ],
                 ),

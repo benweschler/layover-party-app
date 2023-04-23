@@ -4,8 +4,7 @@ import 'package:layover_party/data/trip/trip.dart';
 import 'package:layover_party/styles/styles.dart';
 import 'package:layover_party/styles/theme.dart';
 import 'package:layover_party/utils/iterable_utils.dart';
-
-import 'duration_text.dart';
+import 'package:layover_party/utils/stat_utils.dart';
 
 class TripDetailsSegment extends StatelessWidget
     implements PreferredSizeWidget {
@@ -32,23 +31,25 @@ class TripDetailsSegment extends StatelessWidget
         children: [
           Row(
             children: trip.layovers
-                .map((layover) => DurationText(
-                      duration: layover.duration,
-                      digitStyle: TextStyles.h2.copyWith(
-                        color: AppColors.of(context).secondary,
-                        fontWeight: FontWeight.bold,
+                .map((layover) => Text.rich(TextSpan(
+                      children: formatDuration(
+                        duration: layover.duration,
+                        digitStyle: TextStyles.h2.copyWith(
+                          color: AppColors.of(context).secondary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        unitStyle: TextStyles.body2.copyWith(
+                          color: AppColors.of(context).secondary,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                      unitStyle: TextStyles.body2.copyWith(
-                        color: AppColors.of(context).secondary,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ))
+                    )))
                 .map((e) => Expanded(child: Center(child: e)))
                 .toList(),
           ),
           Row(
             children: trip.layovers
-                .map((layover) => CityText(layover.airport.city))
+                .map((layover) => _CityText(layover.airport.city))
                 .map((e) => Expanded(child: Center(child: e)))
                 .toList(),
           ),
@@ -109,10 +110,12 @@ class _AirportRow extends StatelessWidget {
 
   List<Widget> _buildCodeRow(
       AppColors appColors, Iterable<String> airportCodes, TextStyle codeStyle) {
-    final durationStyle = TextStyles.caption.copyWith(
+    final digitStyle = TextStyles.body2.copyWith(
       color: Colors.black,
     );
-
+    final unitStyle = TextStyles.caption.copyWith(
+      color: Colors.black,
+    );
     final codeWidgets = [
       ...airportCodes
           .map<Widget>((code) => Text(
@@ -125,13 +128,15 @@ class _AirportRow extends StatelessWidget {
     List<Widget> durationWidgets = trip.flights.map((flight) {
       return Expanded(
         child: Center(
-          child: DurationText(
-            duration: flight.arrival.difference(flight.departure),
-            digitStyle: durationStyle.copyWith(
-              fontWeight: FontWeight.w600,
+          child: Text.rich(TextSpan(
+            children: formatDuration(
+              duration: flight.arrival.difference(flight.departure),
+              digitStyle: digitStyle.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+              unitStyle: unitStyle,
             ),
-            unitStyle: durationStyle,
-          ),
+          )),
         ),
       );
     }).toList();
@@ -145,5 +150,22 @@ class _AirportRow extends StatelessWidget {
         return [element];
       }
     }).toList();
+  }
+}
+
+class _CityText extends StatelessWidget {
+  final String city;
+
+  const _CityText(this.city, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      city,
+      textAlign: TextAlign.center,
+      style: TextStyles.caption.copyWith(
+        color: AppColors.of(context).neutralContent,
+      ),
+    );
   }
 }
