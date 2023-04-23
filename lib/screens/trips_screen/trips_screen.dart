@@ -1,8 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:layover_party/commands/get_trips_command.dart';
 import 'package:layover_party/data/trip/trip.dart';
-import 'package:layover_party/models/app_model.dart';
 import 'package:layover_party/models/trip_model.dart';
 import 'package:layover_party/screens/trips_screen/local_theme.dart';
 import 'package:layover_party/utils/iterable_utils.dart';
@@ -35,32 +35,50 @@ class TripsScreen extends StatelessWidget {
       ),
       child: CustomScaffold(
         addScreenInset: false,
-        child: ListView(
+        topSafeArea: false,
+        child: Stack(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            ListView(
               children: [
-                const AirportSearchBar(),
-                DateSelector(
-                  startDate: DateTime.now(),
-                  endDate: DateTime(2023, 4, 30),
-                ),
+                const SizedBox(height: Insets.xl * 2.5),
+                ...tripList
+                    .map<Widget>((trip) => TripTicket(trip))
+                    .separate(const SizedBox(height: Insets.lg))
+                    .toList()
+                  ..add(const SizedBox(height: Insets.xl * 2)),
               ],
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: Insets.offset),
-              child: Text('Search', style: TextStyles.h1),
-            ),
-            ElevatedButton(
-              onPressed: () => GetTripsCommand.run(
-                context.read<AppModel>().user.authToken,
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: ClipRect(
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: MediaQuery.of(context).viewPadding.top,
+                  ),
+                ),
               ),
-              child: const Text('Test'),
             ),
-            const SizedBox(height: Insets.lg),
-            ...tripList
-                .map<Widget>((trip) => TripTicket(trip))
-                .separate(const SizedBox(height: Insets.lg)),
+            Positioned(
+              top: Insets.med,
+              left: 0,
+              right: 0,
+              child: SafeArea(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    const AirportSearchBar(),
+                    DateSelector(
+                      startDate: DateTime.now(),
+                      endDate: DateTime(2023, 4, 30),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),

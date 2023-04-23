@@ -72,7 +72,14 @@ class TripSummarySegment extends StatelessWidget implements TicketSegment {
                   children: [
                     Text.rich(TextSpan(
                       children: formatDuration(
-                        duration: const Duration(hours: 40, minutes: 15),
+                        duration: trip.layovers
+                            .map((layover) => layover.duration)
+                            .fold(
+                              Duration.zero,
+                              (duration, element) => Duration(
+                                  minutes:
+                                      duration.inMinutes + element.inMinutes),
+                            ),
                         digitStyle: headingStyle,
                         unitStyle: unitStyle,
                       ),

@@ -91,7 +91,10 @@ class AppRouter {
   String? redirectNavigation(BuildContext context, GoRouterState state) {
     final path = state.subloc;
 
-    if (!appModel.isLoggedIn &&
+    if(!appModel.isOnboarded) {
+      if(path != RoutePaths.onboarding) return RoutePaths.onboarding;
+      return null;
+    } else if (!appModel.isLoggedIn &&
         path != RoutePaths.logIn &&
         path != RoutePaths.signUp &&
         path != RoutePaths.forgotPassword) {

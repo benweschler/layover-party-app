@@ -47,6 +47,7 @@ dependencies:
   http: ^0.13.5
   dotted_line: ^3.1.0
   intl: ^0.17.0
+  shared_preferences: ^2.1.0
 
 dev_dependencies:
   flutter_test:

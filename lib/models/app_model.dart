@@ -20,6 +20,13 @@ class AppModel extends EasyNotifier {
   /// Whether the app has been initialized with user data.
   bool _isInitialized = false;
 
+  bool _isOnboarded = false;
+
+  bool get isOnboarded => _isOnboarded;
+
+  set isOnboarded(bool value) =>
+      routerRefreshNotifier.notify(() => _isOnboarded = value);
+
   /// The active theme for the app.
   ThemeMode _themeMode = ThemeMode.light;
 
@@ -50,7 +57,7 @@ class AppModel extends EasyNotifier {
   bool get isLoggedIn => _isLoggedIn;
 
   set isLoggedIn(bool value) {
-    if(value == false) {
+    if (value == false) {
       _user = null;
       _isInitialized = false;
       tripModel.trips = [];

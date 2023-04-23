@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:layover_party/models/app_model.dart';
 import 'package:layover_party/styles/styles.dart';
 import 'package:layover_party/utils/iterable_utils.dart';
 import 'package:layover_party/widgets/buttons/responsive_buttons.dart';
 import 'package:layover_party/widgets/gooey_carousel/gooey_carousel_plus.dart';
+import 'package:provider/provider.dart';
 
 class OnboardingScreenManager extends StatelessWidget {
   const OnboardingScreenManager({Key? key}) : super(key: key);
@@ -18,7 +20,8 @@ class OnboardingScreenManager extends StatelessWidget {
           illustrationPath: 'assets/onboarding/airport.png',
           buttonGradientColors: [Color(0xFFED7303), Color(0xFFF9544A)],
           title: 'Make Layovers Fun',
-          description: 'Turn your layovers into an adventure with other travelers!',
+          description:
+              'Turn your layovers into an adventure with other travelers!',
           index: 0,
         ),
         OnboardingScreen(
@@ -36,7 +39,8 @@ class OnboardingScreenManager extends StatelessWidget {
           illustrationPath: 'assets/onboarding/mountains.png',
           buttonGradientColors: [Color(0xFF3075FA), Color(0xFF3075FA)],
           title: 'Make new friends',
-          description: 'Meet like-minded folks also looking for new connections and adventures',
+          description:
+              'Meet like-minded folks also looking for new connections and adventures',
           index: 2,
         ),
       ],
@@ -119,34 +123,10 @@ class OnboardingScreen extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: Insets.xl * 2),
-                          ResponsiveButton.large(
-                            onTap: () {},
-                            builder: (_) => Container(
-                              width: double.infinity,
-                              padding: const EdgeInsets.all(Insets.med),
-                              decoration: ShapeDecoration(
-                                shape: const StadiumBorder(),
-                                gradient: LinearGradient(
-                                  colors: buttonGradientColors,
-                                ),
-                                shadows: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.15),
-                                    blurRadius: 10,
-                                    spreadRadius: 2,
-                                  ),
-                                ],
-                              ),
-                              child: Center(
-                                child: Text(
-                                  'Continue',
-                                  style: TextStyles.title.copyWith(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
+                          if (index == 2)
+                            ContinueButton(buttonGradientColors)
+                          else
+                            ContinueArrow(buttonGradientColors),
                           const SizedBox(height: Insets.xl),
                         ],
                       ),
@@ -164,6 +144,72 @@ class OnboardingScreen extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class ContinueButton extends StatelessWidget {
+  final List<Color> gradientColors;
+
+  const ContinueButton(this.gradientColors, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ResponsiveButton.large(
+      onTap: () => context.read<AppModel>().isOnboarded = true,
+      builder: (_) => Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(Insets.med),
+        decoration: ShapeDecoration(
+          shape: const StadiumBorder(),
+          gradient: LinearGradient(
+            colors: gradientColors,
+          ),
+          shadows: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.15),
+              blurRadius: 10,
+              spreadRadius: 2,
+            ),
+          ],
+        ),
+        child: Center(
+          child: Text(
+            'Continue',
+            style: TextStyles.title.copyWith(
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ContinueArrow extends StatelessWidget {
+  final List<Color> gradientColors;
+
+  const ContinueArrow(this.gradientColors, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ShaderMask(
+      shaderCallback: (rect) =>
+          LinearGradient(colors: gradientColors).createShader(rect),
+      blendMode: BlendMode.srcIn,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Swipe to Continue',
+            style: TextStyles.title.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(width: Insets.med),
+          const Icon(Icons.arrow_forward),
+        ],
       ),
     );
   }

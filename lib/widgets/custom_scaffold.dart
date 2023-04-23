@@ -16,6 +16,8 @@ class CustomScaffold extends StatelessWidget {
 
   final Widget child;
 
+  final bool topSafeArea;
+
   const CustomScaffold({
     Key? key,
     this.leading,
@@ -23,6 +25,7 @@ class CustomScaffold extends StatelessWidget {
     this.center,
     this.floatingActionButton,
     this.addScreenInset = true,
+    this.topSafeArea = true,
     required this.child,
   }) : super(key: key);
 
@@ -30,6 +33,7 @@ class CustomScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget body = SafeArea(
       bottom: false,
+      top: topSafeArea,
       minimum: addScreenInset
           ? const EdgeInsets.symmetric(horizontal: Insets.offset)
           : EdgeInsets.zero,
@@ -50,11 +54,13 @@ class CustomScaffold extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: CustomAppBar(
-        leading: leading,
-        center: center,
-        trailing: trailing,
-      ),
+      appBar: topSafeArea
+          ? CustomAppBar(
+              leading: leading,
+              center: center,
+              trailing: trailing,
+            )
+          : null,
       body: body,
       // The Scaffold extends behind the app's bottom navigation bar, so add a
       // dummy nav bar to fill the space behind the real nav bar.
@@ -119,12 +125,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   Widget _shuttleBuilder(
-      BuildContext flightContext,
-      Animation<double> animation,
-      HeroFlightDirection flightDirection,
-      BuildContext fromHeroContext,
-      BuildContext toHeroContext,
-      ) {
+    BuildContext flightContext,
+    Animation<double> animation,
+    HeroFlightDirection flightDirection,
+    BuildContext fromHeroContext,
+    BuildContext toHeroContext,
+  ) {
     return CrossFadeTransition(
       animation: flightDirection == HeroFlightDirection.push
           ? animation
