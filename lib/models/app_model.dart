@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart' show ThemeMode;
 import 'package:layover_party/data/app_user/app_user.dart';
+import 'package:layover_party/models/trip_model.dart';
 import 'package:layover_party/styles/theme.dart';
 import 'package:layover_party/utils/easy_notifier.dart';
 
 class AppModel extends EasyNotifier {
+  final TripModel tripModel;
+
+  AppModel(this.tripModel);
+
   final EasyNotifier routerRefreshNotifier = EasyNotifier();
 
   /// The user that is currently signed in.
@@ -48,6 +53,7 @@ class AppModel extends EasyNotifier {
     if(value == false) {
       _user = null;
       _isInitialized = false;
+      tripModel.trips = [];
     }
 
     routerRefreshNotifier.notify(() => _isLoggedIn = value);

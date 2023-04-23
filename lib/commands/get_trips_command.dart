@@ -9,7 +9,7 @@ import 'package:layover_party/data/flight/flight.dart';
 import 'package:layover_party/data/layover/layover.dart';
 import 'package:layover_party/data/trip/trip.dart';
 
-abstract class GetFlightsCommand {
+abstract class GetTripsCommand {
   static const int _page = 1;
 
   static Future<List<Trip>> run(String authToken) async {
@@ -76,6 +76,8 @@ abstract class GetFlightsCommand {
         totalUsers: resultJson['data']['pop_score'],
       ));
     }
+
+    print(tripList.map((trip) => trip.layovers.map((e) => e.airport.city)));
 
     return tripList;
   }

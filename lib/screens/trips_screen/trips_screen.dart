@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:layover_party/commands/get_flights_command.dart';
-import 'package:layover_party/constants.dart';
+import 'package:layover_party/commands/get_trips_command.dart';
 import 'package:layover_party/data/trip/trip.dart';
 import 'package:layover_party/models/app_model.dart';
+import 'package:layover_party/models/trip_model.dart';
 import 'package:layover_party/screens/trips_screen/local_theme.dart';
 import 'package:layover_party/utils/iterable_utils.dart';
 import 'package:layover_party/widgets/custom_scaffold.dart';
@@ -22,6 +22,8 @@ class TripsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Iterable<Trip> tripList = context.read<TripModel>().trips;
+
     return Theme(
       data: Theme.of(context).copyWith(
         extensions: <ThemeExtension<dynamic>>[
@@ -50,17 +52,15 @@ class TripsScreen extends StatelessWidget {
               child: Text('Search', style: TextStyles.h1),
             ),
             ElevatedButton(
-              onPressed: () => GetFlightsCommand.run(
+              onPressed: () => GetTripsCommand.run(
                 context.read<AppModel>().user.authToken,
               ),
               child: const Text('Test'),
             ),
             const SizedBox(height: Insets.lg),
-            ...<Widget>[
-              TripTicket(DummyData.dummyTrip1),
-              TripTicket(DummyData.dummyTrip2),
-              TripTicket(DummyData.dummyTrip3),
-            ].separate(const SizedBox(height: Insets.lg)),
+            ...tripList
+                .map<Widget>((trip) => TripTicket(trip))
+                .separate(const SizedBox(height: Insets.lg)),
           ],
         ),
       ),

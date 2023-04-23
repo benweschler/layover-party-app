@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:layover_party/main_app_scaffold.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
+import 'package:layover_party/models/trip_model.dart';
 import 'package:layover_party/screens/forgot_password_screen.dart';
 import 'package:layover_party/screens/login_screen/login_screen.dart';
 import 'package:layover_party/screens/onboarding/onboarding_screen.dart';
@@ -11,6 +12,7 @@ import 'package:layover_party/screens/profile_screen/profile_screen.dart';
 import 'package:layover_party/screens/trips_screen/trips_screen.dart';
 import 'package:layover_party/screens/signup_screen/signup_screen.dart';
 import 'package:layover_party/screens/splash_screen.dart';
+import 'package:provider/provider.dart';
 
 import 'models/app_model.dart';
 
@@ -96,9 +98,10 @@ class AppRouter {
       return RoutePaths.logIn;
     } else if (appModel.isLoggedIn) {
       if (!appModel.isInitialized && path != RoutePaths.splash) {
-        //TODO: initialize app here
-        Future.delayed(const Duration(seconds: 1))
-            .then((value) => appModel.isInitialized = true);
+        context
+            .read<TripModel>()
+            .initialize(appModel.user.authToken)
+            .then((_) => appModel.isInitialized = true);
         return RoutePaths.splash;
       } else if (appModel.isInitialized && path == RoutePaths.splash) {
         return RoutePaths.trips;

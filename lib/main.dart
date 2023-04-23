@@ -6,17 +6,21 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:layover_party/styles/theme.dart';
 
+import 'models/trip_model.dart';
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Remove '#' from web URL.
   usePathUrlStrategy();
 
-  final appModel = AppModel();
+  final tripModel = TripModel();
+  final appModel = AppModel(tripModel);
 
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider.value(value: appModel),
+      ChangeNotifierProvider.value(value: tripModel),
     ],
     child: MyApp(AppRouter(appModel).router),
   ));
