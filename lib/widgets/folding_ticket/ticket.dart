@@ -6,7 +6,8 @@ import 'package:layover_party/widgets/folding_ticket/widget_segment_wrapper.dart
 import 'folding_ticket.dart';
 
 class Ticket extends StatefulWidget {
-  final Function onClick;
+  final GestureTapCallback onTap;
+  final TicketSegment topCard;
   final TicketSegment frontCard;
   final TicketSegment middleCard;
   final TicketSegment bottomCard;
@@ -17,12 +18,13 @@ class Ticket extends StatefulWidget {
 
   const Ticket({
     Key? key,
-    required this.onClick,
+    required this.onTap,
+    required this.topCard,
     required this.frontCard,
     required this.middleCard,
     required this.bottomCard,
     required this.tileHeights,
-  })  : assert(tileHeights.length == 3),
+  })  : assert(tileHeights.length == 4),
         super(key: key);
 
   @override
@@ -40,7 +42,10 @@ class _TicketState extends State<Ticket> {
         builder: (_) => Container(
           decoration: BoxDecoration(
             //TODO: change to card color
-            color: Color.alphaBlend(AppColors.of(context).largeSurface, Theme.of(context).scaffoldBackgroundColor),
+            color: Color.alphaBlend(
+              AppColors.of(context).largeSurface,
+              Theme.of(context).scaffoldBackgroundColor,
+            ),
           ),
         ),
         childPreferredSize: _bottomCard.preferredSize,
@@ -52,12 +57,12 @@ class _TicketState extends State<Ticket> {
       entries: [
         FoldingTicketTile(height: widget.tileHeights[0], front: _topCard),
         FoldingTicketTile(
-          height: widget.tileHeights[1],
+          height: widget.tileHeights[2],
           front: _middleCard,
           back: _frontCard,
         ),
         FoldingTicketTile(
-          height: widget.tileHeights[2],
+          height: widget.tileHeights[3],
           front: _bottomCard,
           back: backCard,
         )
@@ -68,11 +73,10 @@ class _TicketState extends State<Ticket> {
   }
 
   void _handleOnTap() {
-    widget.onClick();
+    widget.onTap();
     setState(() {
       _isOpen = !_isOpen;
-      //TODO: update with correct preview
-      _topCard = widget.frontCard;
+      _topCard = widget.topCard;
     });
   }
 }

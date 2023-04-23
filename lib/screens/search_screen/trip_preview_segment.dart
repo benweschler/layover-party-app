@@ -11,10 +11,13 @@ import 'local_theme.dart';
 
 class TripSummarySegment extends StatelessWidget implements TicketSegment {
   final Trip trip;
-  final bool isDark;
+  final bool isPreviewSegment;
 
-  const TripSummarySegment(this.trip, {Key? key, required this.isDark})
-      : super(key: key);
+  const TripSummarySegment(
+    this.trip, {
+    Key? key,
+    required this.isPreviewSegment,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,12 +37,10 @@ class TripSummarySegment extends StatelessWidget implements TicketSegment {
         vertical: Insets.xs,
         horizontal: Insets.lg,
       ),
-      decoration: const BoxDecoration(
-        gradient: LocalTheme.gradient,
-        borderRadius: BorderRadius.only(
-          topLeft: Corners.smRadius,
-          topRight: Corners.smRadius,
-        ),
+      decoration: BoxDecoration(
+        gradient: isPreviewSegment ? null : LocalTheme.gradient,
+        color: isPreviewSegment ? Colors.black : null,
+        borderRadius: Corners.smBorderRadius,
       ),
       child: Column(
         children: [

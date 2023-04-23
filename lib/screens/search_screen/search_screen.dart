@@ -17,7 +17,8 @@ class SearchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<TicketSegment> firstSegments = [
-      TripSummarySegment(DummyData.dummyTrip, isDark: false),
+      TripSummarySegment(DummyData.dummyTrip, isPreviewSegment: false),
+      TripSummarySegment(DummyData.dummyTrip, isPreviewSegment: true),
       TripDetailsSegment(DummyData.dummyTrip),
       AddTripButton(onTap: () {}),
     ];
@@ -35,19 +36,23 @@ class SearchScreen extends StatelessWidget {
         addScreenInset: false,
         child: ListView(
           children: [
-            const Text('Search', style: TextStyles.h1),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: Insets.offset),
+              child: Text('Search', style: TextStyles.h1),
+            ),
             const SizedBox(height: Insets.lg),
             Ticket(
-              onClick: () {},
-              frontCard: firstSegments[0],
-              middleCard: firstSegments[1],
-              bottomCard: firstSegments[2],
+              onTap: () {},
+              topCard: firstSegments[0],
+              frontCard: firstSegments[1],
+              middleCard: firstSegments[2],
+              bottomCard: firstSegments[3],
               tileHeights: firstSegments
                   .map((widget) => widget.preferredSize.height)
                   .toList(),
             ),
             const SizedBox(height: Insets.med),
-            TripSummarySegment(DummyData.dummyTrip, isDark: false),
+            TripSummarySegment(DummyData.dummyTrip, isPreviewSegment: false),
             const SizedBox(height: Insets.med),
             TripDetailsSegment(DummyData.dummyTrip),
             const SizedBox(height: Insets.med),

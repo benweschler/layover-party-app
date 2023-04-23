@@ -12,9 +12,11 @@ class AddTripButton extends StatelessWidget implements TicketSegment {
   Widget build(BuildContext context) {
     return Container(
       height: preferredSize.height,
-      padding: const EdgeInsets.symmetric(
-        vertical: Insets.sm,
-        horizontal: Insets.lg,
+      padding: const EdgeInsets.only(
+        top: Insets.sm,
+        bottom: Insets.med,
+        left: Insets.lg,
+        right: Insets.lg,
       ),
       decoration: const BoxDecoration(
         color: Colors.white,
@@ -46,5 +48,5 @@ class AddTripButton extends StatelessWidget implements TicketSegment {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(65);
+  Size get preferredSize => const Size.fromHeight(70);
 }
