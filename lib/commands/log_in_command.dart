@@ -29,8 +29,8 @@ abstract class LogInCommand {
       email: email,
       id: body['id'],
       authToken: body['token'],
-      profilePicURL: 'profilePicURL',
-      name: 'name',
+      profilePicURL: body['profile_picture'],
+      name: body['first_name'],
     );
 
     appModel.isLoggedIn = true;

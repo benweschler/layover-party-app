@@ -11,7 +11,7 @@ class AppUser with _$AppUser {
     required String email,
     required String id,
     required String authToken,
-    required String profilePicURL,
+    required String? profilePicURL,
     required String name,
   }) = _AppUser;
 

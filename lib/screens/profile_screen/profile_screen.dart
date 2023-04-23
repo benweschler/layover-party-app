@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:layover_party/models/app_model.dart';
+import 'package:layover_party/screens/profile_screen/profile_info.dart';
 import 'package:layover_party/styles/styles.dart';
 import 'package:layover_party/utils/iterable_utils.dart';
 import 'package:layover_party/widgets/buttons/responsive_buttons.dart';
@@ -17,7 +18,9 @@ class ProfileScreen extends StatelessWidget {
       child: ListView(
         children: [
           const Text('Profile', style: TextStyles.h2),
-          const SizedBox(height: Insets.lg),
+          const SizedBox(height: Insets.sm),
+          ProfileInfo(context.read<AppModel>().user),
+          const SizedBox(height: Insets.xl),
           Row(
             children: <Widget>[
               const Expanded(

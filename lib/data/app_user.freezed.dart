@@ -23,7 +23,7 @@ mixin _$AppUser {
   String get email => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
   String get authToken => throw _privateConstructorUsedError;
-  String get profilePicURL => throw _privateConstructorUsedError;
+  String? get profilePicURL => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -40,7 +40,7 @@ abstract class $AppUserCopyWith<$Res> {
       {String email,
       String id,
       String authToken,
-      String profilePicURL,
+      String? profilePicURL,
       String name});
 }
 
@@ -60,7 +60,7 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
     Object? email = null,
     Object? id = null,
     Object? authToken = null,
-    Object? profilePicURL = null,
+    Object? profilePicURL = freezed,
     Object? name = null,
   }) {
     return _then(_value.copyWith(
@@ -76,10 +76,10 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
           ? _value.authToken
           : authToken // ignore: cast_nullable_to_non_nullable
               as String,
-      profilePicURL: null == profilePicURL
+      profilePicURL: freezed == profilePicURL
           ? _value.profilePicURL
           : profilePicURL // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -99,7 +99,7 @@ abstract class _$$_AppUserCopyWith<$Res> implements $AppUserCopyWith<$Res> {
       {String email,
       String id,
       String authToken,
-      String profilePicURL,
+      String? profilePicURL,
       String name});
 }
 
@@ -116,7 +116,7 @@ class __$$_AppUserCopyWithImpl<$Res>
     Object? email = null,
     Object? id = null,
     Object? authToken = null,
-    Object? profilePicURL = null,
+    Object? profilePicURL = freezed,
     Object? name = null,
   }) {
     return _then(_$_AppUser(
@@ -132,10 +132,10 @@ class __$$_AppUserCopyWithImpl<$Res>
           ? _value.authToken
           : authToken // ignore: cast_nullable_to_non_nullable
               as String,
-      profilePicURL: null == profilePicURL
+      profilePicURL: freezed == profilePicURL
           ? _value.profilePicURL
           : profilePicURL // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -164,7 +164,7 @@ class _$_AppUser with DiagnosticableTreeMixin implements _AppUser {
   @override
   final String authToken;
   @override
-  final String profilePicURL;
+  final String? profilePicURL;
   @override
   final String name;
 
@@ -223,7 +223,7 @@ abstract class _AppUser implements AppUser {
       {required final String email,
       required final String id,
       required final String authToken,
-      required final String profilePicURL,
+      required final String? profilePicURL,
       required final String name}) = _$_AppUser;
 
   factory _AppUser.fromJson(Map<String, dynamic> json) = _$_AppUser.fromJson;
@@ -235,7 +235,7 @@ abstract class _AppUser implements AppUser {
   @override
   String get authToken;
   @override
-  String get profilePicURL;
+  String? get profilePicURL;
   @override
   String get name;
   @override

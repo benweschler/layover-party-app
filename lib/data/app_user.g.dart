@@ -10,7 +10,7 @@ _$_AppUser _$$_AppUserFromJson(Map<String, dynamic> json) => _$_AppUser(
       email: json['email'] as String,
       id: json['id'] as String,
       authToken: json['authToken'] as String,
-      profilePicURL: json['profilePicURL'] as String,
+      profilePicURL: json['profilePicURL'] as String?,
       name: json['name'] as String,
     );
 
