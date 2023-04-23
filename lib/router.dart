@@ -7,7 +7,7 @@ import 'package:layover_party/screens/forgot_password_screen.dart';
 import 'package:layover_party/screens/login_screen/login_screen.dart';
 import 'package:layover_party/screens/parties_screen.dart';
 import 'package:layover_party/screens/profile_screen/profile_screen.dart';
-import 'package:layover_party/screens/search_screen.dart';
+import 'package:layover_party/screens/search_screen/search_screen.dart';
 import 'package:layover_party/screens/signup_screen/signup_screen.dart';
 import 'package:layover_party/screens/splash_screen.dart';
 
