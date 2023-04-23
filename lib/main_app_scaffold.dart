@@ -15,9 +15,9 @@ class MainAppScaffold extends StatefulWidget {
 
   final List<NavigationTab> _bottomNavigationTabs = [
     NavigationTab(
-      rootLocation: RoutePaths.search,
-      icon: Icons.search_rounded,
-      label: 'Search',
+      rootLocation: RoutePaths.trips,
+      icon: Icons.flight_takeoff_rounded,
+      label: 'Trips',
     ),
     NavigationTab(
       rootLocation: RoutePaths.parties,

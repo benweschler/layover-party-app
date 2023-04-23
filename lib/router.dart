@@ -5,20 +5,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:layover_party/screens/forgot_password_screen.dart';
 import 'package:layover_party/screens/login_screen/login_screen.dart';
+import 'package:layover_party/screens/onboarding/onboarding_screen.dart';
 import 'package:layover_party/screens/parties_screen.dart';
 import 'package:layover_party/screens/profile_screen/profile_screen.dart';
-import 'package:layover_party/screens/search_screen/search_screen.dart';
+import 'package:layover_party/screens/trips_screen/trips_screen.dart';
 import 'package:layover_party/screens/signup_screen/signup_screen.dart';
 import 'package:layover_party/screens/splash_screen.dart';
 
 import 'models/app_model.dart';
 
 abstract class RoutePaths {
+  static String onboarding = '/onboarding';
   static String splash = '/';
   static String logIn = '/log-in';
   static String signUp = '/sign-up';
   static String forgotPassword = '/forgot-password';
-  static String search = '/search';
+  static String trips = '/trips';
   static String parties = '/parties';
   static String profile = '/profile';
 }
@@ -32,11 +34,15 @@ class AppRouter {
 
   GoRouter get router {
     return GoRouter(
-      initialLocation: RoutePaths.search,
+      initialLocation: RoutePaths.trips,
       navigatorKey: _rootNavigatorKey,
       refreshListenable: appModel.routerRefreshNotifier,
       redirect: redirectNavigation,
       routes: [
+        AppRoute(
+          path: RoutePaths.onboarding,
+          builder: (_) => const OnboardingScreenManager(),
+        ),
         AppRoute(
           path: RoutePaths.splash,
           isNavBarTab: true,
@@ -60,9 +66,9 @@ class AppRouter {
           builder: (_, __, child) => MainAppScaffold(body: child),
           routes: [
             AppRoute(
-              path: RoutePaths.search,
+              path: RoutePaths.trips,
               isNavBarTab: true,
-              builder: (_) => const SearchScreen(),
+              builder: (_) => const TripsScreen(),
             ),
             AppRoute(
               path: RoutePaths.parties,
@@ -95,7 +101,7 @@ class AppRouter {
             .then((value) => appModel.isInitialized = true);
         return RoutePaths.splash;
       } else if (appModel.isInitialized && path == RoutePaths.splash) {
-        return RoutePaths.search;
+        return RoutePaths.trips;
       }
     }
 

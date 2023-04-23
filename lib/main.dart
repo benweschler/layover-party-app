@@ -7,6 +7,8 @@ import 'package:provider/provider.dart';
 import 'package:layover_party/styles/theme.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
   // Remove '#' from web URL.
   usePathUrlStrategy();
 

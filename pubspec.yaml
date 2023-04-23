@@ -46,6 +46,7 @@ dependencies:
   form_builder_validators: ^8.5.0
   http: ^0.13.5
   dotted_line: ^3.1.0
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
@@ -74,6 +75,8 @@ flutter:
 
   assets:
     - assets/
+    - assets/tickets/
+    - assets/onboarding/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -15,6 +15,8 @@ abstract class Endpoints {
   static String get logIn => '$_root/login';
 
   static String get signUp => '$_root/register';
+
+  static String get flights => '$_root/flights';
 }
 
 abstract class DummyData {
@@ -28,12 +30,26 @@ abstract class DummyData {
       ),
   ];
 
-  static Trip get dummyTrip => Trip(
-      flights: flights,
-      airline: 'Delta',
-      layovers: layovers,
-      totalUsers: 75,
-    );
+  static Trip get dummyTrip1 => Trip(
+    flights: flights,
+    airline: 'Delta',
+    layovers: layovers,
+    totalUsers: 75,
+  );
+
+  static Trip get dummyTrip2 => Trip(
+    flights: flights..shuffle(),
+    airline: 'Delta',
+    layovers: layovers,
+    totalUsers: 75,
+  );
+
+  static Trip get dummyTrip3 => Trip(
+    flights: flights..shuffle(),
+    airline: 'Delta',
+    layovers: layovers,
+    totalUsers: 75,
+  );
 
   static Flight get flight1 => Flight(
         origin: const Airport(code: 'SFO', city: 'San Fransisco'),

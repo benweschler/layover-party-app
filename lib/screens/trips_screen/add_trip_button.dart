@@ -29,9 +29,16 @@ class AddTripButton extends StatelessWidget implements TicketSegment {
         onTap: onTap,
         builder: (_) => Container(
           padding: const EdgeInsets.symmetric(vertical: Insets.sm),
-          decoration: const ShapeDecoration(
-            shape: StadiumBorder(),
+          decoration: ShapeDecoration(
+            shape: const StadiumBorder(),
             color: Colors.black,
+            shadows: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                blurRadius: 10,
+                spreadRadius: 2,
+              ),
+            ],
           ),
           child: Center(
             child: Text(

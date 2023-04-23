@@ -15,11 +15,11 @@ class AnimatedPlanePath extends StatelessWidget {
     String planeRoutePath;
     String planePath;
     if (isDark) {
-      planeRoutePath = 'assets/plane_path_grey.png';
-      planePath = 'assets/airplane_grey.png';
+      planeRoutePath = 'assets/tickets/plane_path_grey.png';
+      planePath = 'assets/tickets/airplane_grey.png';
     } else {
-      planeRoutePath = 'assets/plane_path_white.png';
-      planePath = 'assets/airplane_white.png';
+      planeRoutePath = 'assets/tickets/plane_path_white.png';
+      planePath = 'assets/tickets/airplane_white.png';
     }
 
     return SizedBox(
