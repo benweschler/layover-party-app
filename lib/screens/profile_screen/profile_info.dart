@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:layover_party/data/app_user.dart';
+import 'package:layover_party/data/app_user/app_user.dart';
 import 'package:layover_party/styles/styles.dart';
 import 'package:layover_party/styles/theme.dart';
 

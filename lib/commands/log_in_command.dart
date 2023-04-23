@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 import 'package:layover_party/constants.dart';
-import 'package:layover_party/data/app_user.dart';
+import 'package:layover_party/data/app_user/app_user.dart';
 import 'package:layover_party/models/app_model.dart';
 import 'package:layover_party/utils/http_utils.dart';
 

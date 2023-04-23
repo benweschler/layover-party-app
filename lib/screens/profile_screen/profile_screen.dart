@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:layover_party/constants.dart';
 import 'package:layover_party/models/app_model.dart';
 import 'package:layover_party/screens/profile_screen/profile_info.dart';
 import 'package:layover_party/styles/styles.dart';
@@ -39,11 +40,13 @@ class ProfileScreen extends StatelessWidget {
           const SizedBox(height: Insets.xl),
           ResponsiveStrokeButton(
             onTap: () => showLicensePage(
+              applicationName: 'Layover Party',
+              applicationVersion: Constants.version,
               context: context,
               useRootNavigator: true,
             ),
             child: const Text(
-              'About Dragonator',
+              'About Layover Party',
               style: TextStyles.body1,
             ),
           ),
@@ -54,7 +57,7 @@ class ProfileScreen extends StatelessWidget {
           ),
           const SizedBox(height: Insets.lg),
           Text(
-            'v0.5.0 — Made with 🦈 and 🎉 in LA',
+            'v${Constants.version} — Made with 🦈 and 🎉 in LA',
             style: TextStyles.caption.copyWith(
               fontWeight: FontWeight.w600,
             ),

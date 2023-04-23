@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart' show ThemeMode;
-import 'package:layover_party/data/app_user.dart';
+import 'package:layover_party/data/app_user/app_user.dart';
 import 'package:layover_party/styles/theme.dart';
 import 'package:layover_party/utils/easy_notifier.dart';
 

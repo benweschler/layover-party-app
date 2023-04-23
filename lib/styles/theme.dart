@@ -5,11 +5,10 @@ enum ThemeType { light, dark }
 class AppColors extends ThemeExtension<AppColors> {
   static const _primaryOrange = Color(0xFFE46565);
   static const _secondaryBlue = Color(0xFF083E64);
-  static const _errorRed = Color(0xFFE55C45);
 
   final Color primary;
   final Color secondary;
-  final Color errorContent;
+  final errorContent = const Color(0xFFE55C45);
   //TODO: actually use in default text style
   final Color textColor;
   final Color largeSurface;
@@ -17,6 +16,8 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color dividerColor;
   final Color tabHighlightColor;
   final Color responsiveOverlayColor;
+  final neutralOnContainer = const Color(0x99FFFFFF);
+  final dividerOnContainer = const Color(0x4DFFFFFF);
   final bool isDark;
 
   const AppColors._({
@@ -24,7 +25,6 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.secondary,
     required this.largeSurface,
     required this.textColor,
-    required this.errorContent,
     required this.neutralContent,
     required this.dividerColor,
     required this.tabHighlightColor,
@@ -38,7 +38,6 @@ class AppColors extends ThemeExtension<AppColors> {
         return AppColors._(
           primary: _primaryOrange,
           secondary: _secondaryBlue,
-          errorContent: _errorRed,
           textColor: Colors.black,
           largeSurface: Colors.black.withOpacity(0.04),
           neutralContent: Colors.black.withOpacity(0.5),
@@ -51,7 +50,6 @@ class AppColors extends ThemeExtension<AppColors> {
         return AppColors._(
           primary: _primaryOrange,
           secondary: _secondaryBlue,
-          errorContent: _errorRed,
           textColor: Colors.white,
           largeSurface: Colors.white.withOpacity(0.04),
           neutralContent: Colors.white.withOpacity(0.5),
@@ -102,7 +100,6 @@ class AppColors extends ThemeExtension<AppColors> {
     return AppColors._(
       primary: primary ?? this.primary,
       secondary: secondary ?? this.secondary,
-      errorContent: errorContent ?? this.errorContent,
       textColor: textColor ?? this.textColor,
       largeSurface: largeSurface ?? this.largeSurface,
       neutralContent: neutralContent ?? this.neutralContent,
@@ -120,7 +117,6 @@ class AppColors extends ThemeExtension<AppColors> {
     return AppColors._(
       primary: Color.lerp(primary, other.primary, t)!,
       secondary: Color.lerp(secondary, other.secondary, t)!,
-      errorContent: Color.lerp(errorContent, other.errorContent, t)!,
       textColor: Color.lerp(textColor, textColor, t)!,
       largeSurface: Color.lerp(largeSurface, other.largeSurface, t)!,
       neutralContent: Color.lerp(neutralContent, other.neutralContent, t)!,
