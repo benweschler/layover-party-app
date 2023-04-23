@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:layover_party/data/trip/trip.dart';
+import 'package:layover_party/widgets/folding_ticket/ticket_segment.dart';
 import 'package:layover_party/styles/styles.dart';
 import 'package:layover_party/styles/theme.dart';
 import 'package:layover_party/utils/stat_utils.dart';
@@ -8,7 +9,7 @@ import 'package:layover_party/widgets/custom_divider.dart';
 import 'animated_plane_path.dart';
 import 'local_theme.dart';
 
-class TripSummarySegment extends StatelessWidget {
+class TripSummarySegment extends StatelessWidget implements TicketSegment {
   final Trip trip;
   final bool isDark;
 
@@ -28,26 +29,21 @@ class TripSummarySegment extends StatelessWidget {
     );
 
     return Container(
+      height: preferredSize.height,
       padding: const EdgeInsets.symmetric(
         vertical: Insets.xs,
         horizontal: Insets.lg,
       ),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         gradient: LocalTheme.gradient,
-        borderRadius: const BorderRadius.only(
+        borderRadius: BorderRadius.only(
           topLeft: Corners.smRadius,
           topRight: Corners.smRadius,
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 10,
-            spreadRadius: 1,
-          ),
-        ],
       ),
       child: Column(
         children: [
+          const SizedBox(height: Insets.xs),
           Text(
             trip.airline.toUpperCase(),
             style: TextStyles.caption.copyWith(
@@ -97,4 +93,7 @@ class TripSummarySegment extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(147);
 }

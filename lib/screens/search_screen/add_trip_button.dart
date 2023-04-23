@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:layover_party/widgets/folding_ticket/ticket_segment.dart';
 import 'package:layover_party/styles/styles.dart';
 import 'package:layover_party/widgets/buttons/responsive_buttons.dart';
 
-class AddTripButton extends StatelessWidget implements PreferredSizeWidget {
+class AddTripButton extends StatelessWidget implements TicketSegment {
   final GestureTapCallback onTap;
 
   const AddTripButton({Key? key, required this.onTap}) : super(key: key);
@@ -15,19 +16,12 @@ class AddTripButton extends StatelessWidget implements PreferredSizeWidget {
         vertical: Insets.sm,
         horizontal: Insets.lg,
       ),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
-        borderRadius: const BorderRadius.only(
+        borderRadius: BorderRadius.only(
           bottomLeft: Corners.smRadius,
           bottomRight: Corners.smRadius,
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 10,
-            spreadRadius: 1,
-          ),
-        ],
       ),
       child: ResponsiveButton.large(
         onTap: onTap,

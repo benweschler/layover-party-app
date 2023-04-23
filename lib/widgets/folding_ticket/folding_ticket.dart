@@ -1,6 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:layover_party/widgets/folding_ticket/ticket_segment.dart';
+import 'package:layover_party/styles/styles.dart';
+import 'package:layover_party/widgets/folding_ticket/widget_segment_wrapper.dart';
 
 class FoldingTicket extends StatefulWidget {
   static const double padding = 16.0;
@@ -9,7 +12,8 @@ class FoldingTicket extends StatefulWidget {
   final Function? onClick;
   final Duration? duration;
 
-  FoldingTicket({
+  const FoldingTicket({
+    super.key,
     this.duration,
     required this.entries,
     this.isOpen = false,
@@ -17,7 +21,7 @@ class FoldingTicket extends StatefulWidget {
   });
 
   @override
-  _FoldingTicketState createState() => _FoldingTicketState();
+  State<FoldingTicket> createState() => _FoldingTicketState();
 }
 
 class _FoldingTicketState extends State<FoldingTicket>
@@ -27,10 +31,9 @@ class _FoldingTicketState extends State<FoldingTicket>
   late AnimationController _controller;
 
   double? get openHeight =>
-      _entries.fold(0.0, (dynamic val, o) => val + o.height) +
-      FoldingTicket.padding * 2;
+      _entries.fold<double>(0.0, (current, entry) => current + entry.height);
 
-  double get closedHeight => _entries[0].height + FoldingTicket.padding * 2;
+  double get closedHeight => _entries[0].height;
 
   bool? get isOpen => widget.isOpen;
 
@@ -58,16 +61,17 @@ class _FoldingTicketState extends State<FoldingTicket>
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(FoldingTicket.padding),
+      padding: const EdgeInsets.symmetric(horizontal: Insets.offset),
       height: closedHeight +
           (openHeight! - closedHeight) * Curves.easeOut.transform(_ratio),
       child: Container(
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
-                  color: Colors.black.withOpacity(.1),
-                  blurRadius: 10,
-                  spreadRadius: 1)
+                color: Colors.black.withOpacity(.12),
+                blurRadius: 10,
+                spreadRadius: 10,
+              )
             ],
           ),
           child: _buildEntry(0)),
@@ -93,7 +97,7 @@ class _FoldingTicketState extends State<FoldingTicket>
         child: GestureDetector(
           onTap: widget.onClick as void Function()?,
           child: SingleChildScrollView(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             // Note: Container supports a transform property, but not alignment for it.
             child: (index == count || ratio <= 0.5)
                 ? card
@@ -123,16 +127,24 @@ class _FoldingTicketState extends State<FoldingTicket>
 }
 
 class FoldingTicketTile {
-  final Widget? front;
-  Widget? back;
+  final TicketSegment? front;
+  TicketSegment? back;
   final double height;
 
-  FoldingTicketTile({required this.front, required this.height, Widget? back}) {
-    this.back = Transform(
+  FoldingTicketTile({
+    required this.front,
+    required this.height,
+    TicketSegment? back,
+  }) {
+    this.back = WidgetSegmentWrapper(
+      builder: (child) => Transform(
         alignment: FractionalOffset.center,
         transform: Matrix4.identity()
           ..setEntry(3, 2, .001)
           ..rotateX(pi),
-        child: back);
+        child: child,
+      ),
+      child: back,
+    );
   }
 }

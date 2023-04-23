@@ -1,13 +1,13 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:layover_party/data/trip/trip.dart';
+import 'package:layover_party/widgets/folding_ticket/ticket_segment.dart';
 import 'package:layover_party/styles/styles.dart';
 import 'package:layover_party/styles/theme.dart';
 import 'package:layover_party/utils/iterable_utils.dart';
 import 'package:layover_party/utils/stat_utils.dart';
 
-class TripDetailsSegment extends StatelessWidget
-    implements PreferredSizeWidget {
+class TripDetailsSegment extends StatelessWidget implements TicketSegment {
   final Trip trip;
 
   const TripDetailsSegment(this.trip, {Key? key}) : super(key: key);
@@ -17,16 +17,7 @@ class TripDetailsSegment extends StatelessWidget
     return Container(
       height: preferredSize.height,
       padding: const EdgeInsets.all(Insets.lg),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 10,
-            spreadRadius: 1,
-          ),
-        ],
-      ),
+      decoration: const BoxDecoration(color: Colors.white),
       child: Column(
         children: [
           Row(
