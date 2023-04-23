@@ -10,17 +10,23 @@ import 'package:layover_party/data/layover/layover.dart';
 import 'package:layover_party/data/trip/trip.dart';
 
 abstract class GetTripsCommand {
-  static const int _page = 1;
+  static const int _page = 2;
 
-  static Future<List<Trip>> run(String authToken) async {
+  static Future<List<Trip>> run(
+    String authToken,
+    String originCode,
+    String destinationCode,
+    DateTime departure,
+    DateTime arrival,
+  ) async {
     final Uri url = Uri.https(
       Endpoints.authority,
       Endpoints.flights,
       generateRequestBody(
-        originCode: 'SFO',
-        destinationCode: 'LAX',
-        startDate: DateTime.now(),
-        endDate: DateTime(2023, 4, 27),
+        originCode: originCode,
+        destinationCode: destinationCode,
+        startDate: departure,
+        endDate: arrival,
       ),
     );
 
@@ -36,6 +42,8 @@ abstract class GetTripsCommand {
       final tripData = (resultJson['data']['legs'] as List).first;
       final flightDataList = tripData['segments'] as List;
       final layoverDataList = tripData['layovers'] as List;
+
+      print(flightDataList);
 
       final List<Flight> flightList = [];
       for (Map<String, dynamic> flightData in flightDataList) {
@@ -71,7 +79,7 @@ abstract class GetTripsCommand {
 
       tripList.add(Trip(
         flights: flightList,
-        airline: 'Delta',
+        airline: flightDataList.first['operatingCarrier']['name'],
         layovers: layoverList,
         totalUsers: resultJson['data']['pop_score'],
       ));

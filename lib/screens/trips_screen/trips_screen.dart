@@ -1,8 +1,11 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:layover_party/commands/get_trips_command.dart';
 import 'package:layover_party/data/trip/trip.dart';
+import 'package:layover_party/models/app_model.dart';
 import 'package:layover_party/models/trip_model.dart';
 import 'package:layover_party/screens/trips_screen/local_theme.dart';
 import 'package:layover_party/utils/iterable_utils.dart';
@@ -27,7 +30,8 @@ class TripsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Iterable<Trip> tripList = context.read<TripModel>().trips;
+    final Iterable<Trip> tripList =
+        context.select<TripModel, List<Trip>>((model) => model.trips.toList());
 
     return Theme(
       data: Theme.of(context).copyWith(
@@ -59,7 +63,7 @@ class TripsScreen extends StatelessWidget {
               right: 0,
               child: ClipRect(
                 child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                  filter: ImageFilter.blur(sigmaX: 60, sigmaY: 20),
                   child: SizedBox(
                     width: double.infinity,
                     height: MediaQuery.of(context).viewPadding.top,
@@ -72,13 +76,85 @@ class TripsScreen extends StatelessWidget {
               left: 0,
               right: 0,
               child: SafeArea(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                child: Column(
                   children: [
-                    const AirportSearchBar(),
-                    DateSelector(
-                      startDate: DateTime.now(),
-                      endDate: DateTime(2023, 4, 30),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        const AirportSearchBar(),
+                        DateSelector(
+                          startDate: context.select<TripModel, DateTime>(
+                            (model) => model.departure,
+                          ),
+                          endDate: context.select<TripModel, DateTime>(
+                            (model) => model.arrival,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: ResponsiveButton(
+                        onTap: () => context.showModal(
+                          ModalSheet(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: Insets.offset,
+                                vertical: Insets.lg,
+                              ),
+                              child: AsyncActionButton(
+                                label: 'Search',
+                                action: () async {
+                                  final tripModel = context.read<TripModel>();
+
+                                  final pop = context.pop;
+
+                                  tripModel.trips = await GetTripsCommand.run(
+                                    context.read<AppModel>().user.authToken,
+                                    tripModel.originCode,
+                                    tripModel.destinationCode,
+                                    tripModel.departure,
+                                    tripModel.arrival,
+                                  );
+
+                                  pop();
+                                },
+                                catchError: (e) => print(e),
+                              ),
+                            ),
+                          ),
+                        ),
+                        builder: (overlay) => Container(
+                          margin: const EdgeInsets.symmetric(
+                            vertical: Insets.sm,
+                            horizontal: Insets.offset,
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: Insets.xs, horizontal: Insets.med),
+                          decoration: ShapeDecoration(
+                            shape: const StadiumBorder(),
+                            color: Color.alphaBlend(
+                              overlay,
+                              AppColors.of(context).secondary,
+                            ),
+                            shadows: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                blurRadius: 10,
+                                spreadRadius: 1,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: Text(
+                            'Submit',
+                            style: TextStyles.body2.copyWith(
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -136,9 +212,13 @@ class AirportSearchBar extends StatelessWidget {
       child: Row(
         children: [
           ResponsiveStrokeButton(
-            onTap: () => context.showModal(const SearchAirportModal()),
+            onTap: () => context.showModal(
+              const SelectAirportModal(UpdatedAirport.origin),
+            ),
             child: Text(
-              'SFO',
+              context.select<TripModel, String>(
+                (model) => model.originCode,
+              ),
               style: TextStyles.body1.copyWith(fontWeight: FontWeight.w600),
             ),
           ),
@@ -146,9 +226,13 @@ class AirportSearchBar extends StatelessWidget {
           const Icon(Icons.arrow_forward),
           const SizedBox(width: Insets.sm),
           ResponsiveStrokeButton(
-            onTap: () => context.showModal(const SearchAirportModal()),
+            onTap: () => context.showModal(
+              const SelectAirportModal(UpdatedAirport.destination),
+            ),
             child: Text(
-              'LAX',
+              context.select<TripModel, String>(
+                (model) => model.destinationCode,
+              ),
               style: TextStyles.body1.copyWith(fontWeight: FontWeight.w600),
             ),
           ),
@@ -187,7 +271,7 @@ class DateSelector extends StatelessWidget {
           ),
           const SizedBox(width: Insets.sm),
           Text(
-            DateFormat.Md().format(startDate),
+            DateFormat.Md().format(endDate),
             style: dateStyle,
           ),
           const SizedBox(width: Insets.sm),
@@ -199,14 +283,18 @@ class DateSelector extends StatelessWidget {
   }
 }
 
-class SearchAirportModal extends StatefulWidget {
-  const SearchAirportModal({Key? key}) : super(key: key);
+enum UpdatedAirport { origin, destination }
+
+class SelectAirportModal extends StatefulWidget {
+  final UpdatedAirport updatedAirport;
+
+  const SelectAirportModal(this.updatedAirport, {Key? key}) : super(key: key);
 
   @override
-  State<SearchAirportModal> createState() => _SearchAirportModalState();
+  State<SelectAirportModal> createState() => _SelectAirportModalState();
 }
 
-class _SearchAirportModalState extends State<SearchAirportModal> {
+class _SelectAirportModalState extends State<SelectAirportModal> {
   final TextEditingController _controller = TextEditingController();
 
   @override
@@ -218,13 +306,27 @@ class _SearchAirportModalState extends State<SearchAirportModal> {
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
+              controller: _controller,
               decoration: CustomInputDecoration(AppColors.of(context),
                   hintText: 'Enter an airport code'),
             ),
             const SizedBox(height: Insets.lg),
             AsyncActionButton(
-              label: 'Search',
-              action: () {},
+              label: 'Update',
+              action: () async {
+                final tripModel = context.read<TripModel>();
+
+                switch (widget.updatedAirport) {
+                  case UpdatedAirport.origin:
+                    tripModel.originCode = _controller.value.text;
+                    break;
+                  case UpdatedAirport.destination:
+                    tripModel.destinationCode = _controller.value.text;
+                    break;
+                }
+
+                context.pop();
+              },
               catchError: (_) {},
             ),
           ],

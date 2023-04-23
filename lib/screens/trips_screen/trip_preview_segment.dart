@@ -43,7 +43,7 @@ class TripSummarySegment extends StatelessWidget implements TicketSegment {
       ),
       decoration: BoxDecoration(
         gradient: isPreviewSegment ? null : LocalTheme.gradient,
-        color: isPreviewSegment ? Colors.white : null,
+        color: isPreviewSegment ? AppColors.of(context).cardColor : null,
         borderRadius: Corners.smBorderRadius,
       ),
       child: Column(

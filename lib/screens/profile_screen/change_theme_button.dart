@@ -145,14 +145,6 @@ class _ThemeWindow extends StatelessWidget {
     final neutralContent = contrast.withOpacity(0.2);
     final largeSurface = contrast.withOpacity(0.15);
     final smallSurface = contrast.withOpacity(0.07);
-    /*
-    //TODO
-    final textColor = appColors.neutralContent;
-    final neutralContent = appColors.neutralContent.withOpacity(0.2);
-    final largeSurface = appColors.smallSurface;
-    final smallSurface = appColors.smallSurface.withOpacity(0.15);
-
-     */
 
     return Container(
       padding: const EdgeInsets.all(Insets.sm),

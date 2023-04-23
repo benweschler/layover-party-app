@@ -3,6 +3,15 @@ import 'package:layover_party/data/trip/trip.dart';
 import 'package:layover_party/utils/easy_notifier.dart';
 
 class TripModel extends EasyNotifier {
+  String _originCode = 'SFO';
+  String _destinationCode = 'LAX';
+  final DateTime departure = DateTime.now();
+  final DateTime arrival = DateTime(2023, 4, 26);
+
+  String get originCode => _originCode;
+
+  set originCode(String value) => notify(() => _originCode = value);
+
   List<Trip> _trips = [];
 
   Iterable<Trip> get trips => List.from(_trips);
@@ -13,5 +22,10 @@ class TripModel extends EasyNotifier {
       notify(() => _trips = [..._trips, ...trips]);
 
   Future<void> initialize(String authToken) async =>
-      trips = await GetTripsCommand.run(authToken);
+      trips = await GetTripsCommand.run(
+          authToken, originCode, destinationCode, departure, arrival);
+
+  String get destinationCode => _destinationCode;
+
+  set destinationCode(String value) => notify(() => _destinationCode = value);
 }
