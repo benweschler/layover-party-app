@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:go_router/go_router.dart';
+import 'package:layover_party/commands/sign_up_command.dart';
 import 'package:layover_party/models/app_model.dart';
 import 'package:layover_party/styles/styles.dart';
 import 'package:layover_party/styles/theme.dart';
@@ -19,17 +21,14 @@ class SignUpScreen extends StatelessWidget {
 
   SignUpScreen({Key? key}) : super(key: key);
 
-  Future<void> signUp(AppModel appModel) async {
+  Future<void> signUp(AppModel appModel) {
     final formData = _formKey.currentState!.value;
 
-    /*
-    //TODO: implement create user
-    await CreateUserCommand.run(
-      firstName: formData[SignUpFieldNames.firstName],
+    return SignUpCommand.run(
+      name: formData[SignUpFieldNames.name],
       email: formData[SignUpFieldNames.email],
       password: formData[SignUpFieldNames.password],
     );
-     */
   }
 
   @override
@@ -51,17 +50,17 @@ class SignUpScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: Insets.xl),
                   FormBuilderTextField(
-                    name: SignUpFieldNames.firstName,
+                    name: SignUpFieldNames.name,
                     textInputAction: TextInputAction.next,
                     keyboardType: TextInputType.name,
                     autofillHints: const [AutofillHints.givenName],
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: Validators.required(
-                      errorText: 'Enter your first name',
+                      errorText: 'Enter your preferred name',
                     ),
                     decoration: CustomInputDecoration(
                       AppColors.of(context),
-                      hintText: 'First Name',
+                      hintText: 'Preferred Name',
                     ),
                   ),
                   const SizedBox(height: Insets.xl),
@@ -138,7 +137,9 @@ class SignUpScreen extends StatelessWidget {
                       if (!_formKey.currentState!.saveAndValidate()) {
                         return;
                       }
-                      return signUp(context.read<AppModel>());
+                      final pop = context.pop;
+                      await signUp(context.read<AppModel>());
+                      pop();
                     },
                     //TODO: implement error handling
                     catchError: (_) {},
