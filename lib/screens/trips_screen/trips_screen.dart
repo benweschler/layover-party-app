@@ -49,7 +49,7 @@ class TripsScreen extends StatelessWidget {
           children: [
             ListView(
               children: [
-                const SizedBox(height: Insets.xl * 2.5),
+                const SizedBox(height: Insets.xl * 4),
                 ...tripList
                     .map<Widget>((trip) => TripTicket(trip))
                     .separate(const SizedBox(height: Insets.lg))
@@ -83,9 +83,7 @@ class TripsScreen extends StatelessWidget {
                       children: [
                         const AirportSearchBar(),
                         DateSelector(
-                          startDate: context.select<TripModel, DateTime>(
-                            (model) => model.departure,
-                          ),
+                          startDate: context.watch<TripModel>().departure,
                           endDate: context.select<TripModel, DateTime>(
                             (model) => model.arrival,
                           ),
@@ -258,9 +256,17 @@ class DateSelector extends StatelessWidget {
       child: Row(
         children: [
           const SizedBox(width: Insets.sm),
-          Text(
-            DateFormat.Md().format(startDate),
-            style: dateStyle,
+          ResponsiveStrokeButton(
+            onTap: () => showDatePicker(
+              context: context,
+              initialDate: startDate,
+              firstDate: DateTime(2023, 1, 1),
+              lastDate: DateTime(2023, 8, 1),
+            ).then((date) => context.read<TripModel>().departure = date!),
+            child: Text(
+              DateFormat.Md().format(startDate),
+              style: dateStyle,
+            ),
           ),
           const SizedBox(width: Insets.sm),
           Text(
@@ -270,9 +276,17 @@ class DateSelector extends StatelessWidget {
             ),
           ),
           const SizedBox(width: Insets.sm),
-          Text(
-            DateFormat.Md().format(endDate),
-            style: dateStyle,
+          ResponsiveStrokeButton(
+            onTap: () => showDatePicker(
+              context: context,
+              initialDate: endDate,
+              firstDate: DateTime(2023, 1, 1),
+              lastDate: DateTime(2023, 8, 1),
+            ).then((date) => context.read<TripModel>().arrival = date!),
+            child: Text(
+              DateFormat.Md().format(endDate),
+              style: dateStyle,
+            ),
           ),
           const SizedBox(width: Insets.sm),
           const Icon(Icons.calendar_today_outlined),
