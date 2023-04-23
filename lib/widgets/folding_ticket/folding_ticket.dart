@@ -70,8 +70,8 @@ class _FoldingTicketState extends State<FoldingTicket>
               BoxShadow(
                 color: Colors.black.withOpacity(.12),
                 blurRadius: 10,
-                spreadRadius: 10,
-              )
+                spreadRadius: 1,
+              ),
             ],
           ),
           child: _buildEntry(0)),

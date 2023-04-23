@@ -15,8 +15,6 @@ abstract class SignUpCommand {
       generateRequestBody(name: name, email: email, password: password),
     );
 
-    print(response);
-
     if (response.statusCode >= 400) {
       print('Server error: ${response.body} ${response.statusCode}');
       throw Exception('Server error');
