@@ -51,12 +51,6 @@ class SearchScreen extends StatelessWidget {
                   .map((widget) => widget.preferredSize.height)
                   .toList(),
             ),
-            const SizedBox(height: Insets.med),
-            TripSummarySegment(DummyData.dummyTrip, isPreviewSegment: false),
-            const SizedBox(height: Insets.med),
-            TripDetailsSegment(DummyData.dummyTrip),
-            const SizedBox(height: Insets.med),
-            AddTripButton(onTap: () {}),
           ],
         ),
       ),

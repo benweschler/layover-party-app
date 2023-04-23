@@ -32,6 +32,7 @@ abstract class DummyData {
       flights: flights,
       airline: 'Delta',
       layovers: layovers,
+      totalUsers: 75,
     );
 
   static Flight get flight1 => Flight(

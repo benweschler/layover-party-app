@@ -23,12 +23,16 @@ class TripSummarySegment extends StatelessWidget implements TicketSegment {
   Widget build(BuildContext context) {
     final headingStyle = TextStyles.h2.copyWith(
       fontSize: 24,
-      color: Colors.white,
+      color: isPreviewSegment ? AppColors.of(context).primary : Colors.white,
       fontWeight: FontWeight.w600,
     );
-    final unitStyle = TextStyles.title.copyWith(color: Colors.white);
+    final unitStyle = TextStyles.title.copyWith(
+      color: isPreviewSegment ? AppColors.of(context).primary : Colors.white,
+    );
     final captionStyle = TextStyles.caption.copyWith(
-      color: AppColors.of(context).neutralOnContainer,
+      color: isPreviewSegment
+          ? AppColors.of(context).neutralContent
+          : AppColors.of(context).neutralOnContainer,
     );
 
     return Container(
@@ -39,7 +43,7 @@ class TripSummarySegment extends StatelessWidget implements TicketSegment {
       ),
       decoration: BoxDecoration(
         gradient: isPreviewSegment ? null : LocalTheme.gradient,
-        color: isPreviewSegment ? Colors.black : null,
+        color: isPreviewSegment ? Colors.white : null,
         borderRadius: Corners.smBorderRadius,
       ),
       child: Column(
@@ -48,12 +52,18 @@ class TripSummarySegment extends StatelessWidget implements TicketSegment {
           Text(
             trip.airline.toUpperCase(),
             style: TextStyles.caption.copyWith(
-              color: Colors.white,
+              color: isPreviewSegment
+                  ? AppColors.of(context).secondary
+                  : Colors.white,
               fontWeight: FontWeight.w500,
             ),
           ),
           const SizedBox(height: Insets.xs),
-          CustomDivider(color: AppColors.of(context).dividerOnContainer),
+          CustomDivider(
+            color: isPreviewSegment
+                ? null
+                : AppColors.of(context).dividerOnContainer,
+          ),
           const SizedBox(height: Insets.sm),
           Row(
             children: [
@@ -71,14 +81,11 @@ class TripSummarySegment extends StatelessWidget implements TicketSegment {
                   ],
                 ),
               ),
-              const AnimatedPlanePath(isDark: true, isOpen: true),
+              AnimatedPlanePath(isDark: isPreviewSegment, isOpen: true),
               Expanded(
                 child: Column(
                   children: [
-                    Text.rich(TextSpan(children: [
-                      TextSpan(text: '1.4', style: headingStyle),
-                      TextSpan(text: 'K', style: unitStyle),
-                    ])),
+                    Text('${trip.totalUsers}', style: headingStyle),
                     Text("Total Partiers", style: captionStyle),
                   ],
                 ),
@@ -88,7 +95,9 @@ class TripSummarySegment extends StatelessWidget implements TicketSegment {
           const SizedBox(height: Insets.xs),
           Icon(
             Icons.keyboard_arrow_down_rounded,
-            color: Colors.white.withOpacity(0.6),
+            color: isPreviewSegment
+                ? AppColors.of(context).secondary
+                : Colors.white.withOpacity(0.6),
           ),
         ],
       ),

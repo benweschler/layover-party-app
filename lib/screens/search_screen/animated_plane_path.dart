@@ -14,9 +14,9 @@ class AnimatedPlanePath extends StatelessWidget {
   Widget build(BuildContext context) {
     String planeRoutePath;
     String planePath;
-    if (!isDark) {
-      planeRoutePath = 'assets/plane_path_blue.png';
-      planePath = 'assets/airplane_blue.png';
+    if (isDark) {
+      planeRoutePath = 'assets/plane_path_grey.png';
+      planePath = 'assets/airplane_grey.png';
     } else {
       planeRoutePath = 'assets/plane_path_white.png';
       planePath = 'assets/airplane_white.png';
