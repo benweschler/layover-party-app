@@ -61,7 +61,7 @@ class TripsScreen extends StatelessWidget {
                   horizontal: Insets.lg,
                   vertical: Insets.sm
                 ),
-                child: AirportSearchBar(),
+                child: QuerySearchBar(),
               ),
             ),
           ],
