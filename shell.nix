@@ -1,8 +1,8 @@
 {
-	platforms ? [ "web" "android" ],
 	androidABIs ? [ "arm64-v8a" ],   # for Android SDK
 	androidTarget ? "android-arm64", # for Flutter
 	androidPlatforms ? [ "33" ],
+	androidBuildToolsVersion ? "30.0.3",
 }:
 
 with builtins;
@@ -55,9 +55,9 @@ let
 		platformVersions = androidPlatforms;
 		abiVersions = androidABIs;
 		systemImageTypes = [ "google_apis" ];
+		buildToolsVersions = [ androidBuildToolsVersion "33.0.1" ];
 
-		includeSystemImages = false;
-		includeEmulator = false;
+		includeNDK = true;
 
 		extraLicenses = [
 			"android-googletv-license"
@@ -68,8 +68,6 @@ let
 		];
 	};
 
-	androidSDK = androidComposition.androidsdk;
-
 	# Shell functions.
 
 	withPlatform = platform: attr:
@@ -77,16 +75,23 @@ let
 			attr
 		else
 			{};
-
-	shell = {
-		buildInputs = [ flutter pkgs.jdk ];
-	}
-	// (withPlatform "web" {
-		CHROME_EXECUTABLE = "${pkgs.google-chrome}/bin/google-chrome-stable";
-	})
-	// (withPlatform "android" {
-		ANDROID_SDK_ROOT = "${androidSDK}/libexec/android-sdk";
-	});
 in
 
-pkgs.mkShell shell
+pkgs.mkShell rec {
+	buildInputs = with pkgs; [
+		flutter
+		androidComposition.androidsdk
+		# androidComposition.platform-tools
+		gradle_7
+		jdk17_headless
+	];
+
+	CHROME_EXECUTABLE = "${pkgs.google-chrome}/bin/google-chrome-stable";
+	ANDROID_SDK_ROOT = "${androidComposition.androidsdk}/libexec/android-sdk";
+	GRADLE_OPTS = "-Dorg.gradle.project.android.aapt2FromMavenOverride=${ANDROID_SDK_ROOT}/build-tools/33.0.1/aapt2";
+
+	passthru = {
+		# For convenience.
+		inherit androidComposition;
+	};
+}
