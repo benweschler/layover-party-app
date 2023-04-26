@@ -9,12 +9,12 @@ class GooeyEdgePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    Paint fill = new Paint()..color = Colors.blue;
+    Paint fill = Paint()..color = Colors.blue;
     canvas.drawPath(edge.buildPath(size), fill);
   }
 
   @override
-  bool shouldRepaint(GooeyEdgePainter oldPainter) {
+  bool shouldRepaint(GooeyEdgePainter oldDelegate) {
     return true;
   }
 }

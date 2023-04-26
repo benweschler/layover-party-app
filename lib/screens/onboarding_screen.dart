@@ -18,17 +18,23 @@ class OnboardingScreenCarousel extends StatelessWidget {
           rightBlobPath: 'assets/onboarding/right_orange.png',
           leftBlobPath: 'assets/onboarding/left_orange.png',
           illustrationPath: 'assets/onboarding/airport.png',
-          buttonGradientColors: [Color(0xFFED7303), Color(0xFFF9544A)],
-          title: 'Make Layovers Fun',
+          buttonGradientColors: [
+            Color(0xFFED7303),
+            Color(0xFFF9544A),
+          ],
+          title: 'Welcome to Layover Party!',
           description:
-              'Turn your layovers into an adventure with other travelers!',
+              'Turn your layovers into adventures with other travelers!',
           index: 0,
         ),
         OnboardingScreen(
           rightBlobPath: 'assets/onboarding/right_purple.png',
           leftBlobPath: 'assets/onboarding/left_purple.png',
           illustrationPath: 'assets/onboarding/city.png',
-          buttonGradientColors: [Color(0xFFA5AEFF), Color(0xFFA5AEFF)],
+          buttonGradientColors: [
+            Color(0xFFA5AEFF),
+            Color(0xFFA5AEFF),
+          ],
           title: 'Exotic Destinations',
           description: 'Make use of your extra time by exploring new areas',
           index: 1,
@@ -37,7 +43,10 @@ class OnboardingScreenCarousel extends StatelessWidget {
           rightBlobPath: 'assets/onboarding/right_blue.png',
           leftBlobPath: 'assets/onboarding/left_blue.png',
           illustrationPath: 'assets/onboarding/mountains.png',
-          buttonGradientColors: [Color(0xFF3075FA), Color(0xFF3075FA)],
+          buttonGradientColors: [
+            Color(0xFF3075FA),
+            Color(0xFF66C0E0),
+          ],
           title: 'Make new friends',
           description:
               'Meet like-minded folks also looking for new connections and adventures',
@@ -173,9 +182,7 @@ class ContinueButton extends StatelessWidget {
         padding: const EdgeInsets.all(Insets.med),
         decoration: ShapeDecoration(
           shape: const StadiumBorder(),
-          gradient: LinearGradient(
-            colors: gradientColors,
-          ),
+          gradient: LinearGradient(colors: gradientColors),
           shadows: [
             BoxShadow(
               color: Colors.black.withOpacity(0.15),
@@ -187,9 +194,7 @@ class ContinueButton extends StatelessWidget {
         child: Center(
           child: Text(
             'Continue',
-            style: TextStyles.title.copyWith(
-              color: Colors.white,
-            ),
+            style: TextStyles.title.copyWith(color: Colors.white),
           ),
         ),
       ),
