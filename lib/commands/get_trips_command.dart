@@ -36,14 +36,13 @@ abstract class GetTripsCommand {
     );
 
     final networkResultJson = jsonDecode(response.body) as List<dynamic>;
+
     final List<Trip> tripList = [];
 
     for (Map<String, dynamic> resultJson in networkResultJson) {
       final tripData = (resultJson['data']['legs'] as List).first;
       final flightDataList = tripData['segments'] as List;
       final layoverDataList = tripData['layovers'] as List;
-
-      print(flightDataList);
 
       final List<Flight> flightList = [];
       for (Map<String, dynamic> flightData in flightDataList) {
@@ -85,7 +84,12 @@ abstract class GetTripsCommand {
       ));
     }
 
-    print(tripList.map((trip) => trip.layovers.map((e) => e.airport.city)));
+    for (Trip trip in tripList) {
+      print(
+        'TRIP: ${trip.flights.map((flight) => flight.origin.city).toList()..add(trip.flights.last.destination.city)}',
+      );
+      print('');
+    }
 
     return tripList;
   }

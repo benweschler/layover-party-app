@@ -3,9 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:layover_party/commands/get_trips_command.dart';
 import 'package:layover_party/data/trip/trip.dart';
-import 'package:layover_party/models/app_model.dart';
 import 'package:layover_party/models/trip_model.dart';
 import 'package:layover_party/screens/trips_screen/trip_ticket/local_theme.dart';
 import 'package:layover_party/screens/trips_screen/trip_ticket/trip_ticket.dart';
@@ -44,7 +42,7 @@ class TripsScreen extends StatelessWidget {
           children: [
             ListView(
               children: [
-                const SizedBox(height: Insets.med),
+                const SizedBox(height: Insets.xl * 5),
                 ...tripList
                     .map<Widget>((trip) => TripTicket(trip))
                     .separate(const SizedBox(height: Insets.lg))
@@ -63,10 +61,10 @@ class TripsScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const AirportSearchBar(),
+                        //TODO: fix
                         DateSelector(
-                          startDate: context.watch<TripModel>().departure,
-                          endDate: context.select<TripModel, DateTime>(
-                                (model) => model.arrival,
+                          startDate: DateTime.now(),
+                          endDate: DateTime.now().add(const Duration(days: 7),
                           ),
                         ),
                       ],
@@ -79,6 +77,8 @@ class TripsScreen extends StatelessWidget {
 
                         final pop = context.pop;
 
+                        /*
+                        TODO: fix
                         tripModel.trips = await GetTripsCommand.run(
                           context.read<AppModel>().user.authToken,
                           tripModel.originCode,
@@ -86,6 +86,7 @@ class TripsScreen extends StatelessWidget {
                           tripModel.departure,
                           tripModel.arrival,
                         );
+                         */
 
                         pop();
                       },
@@ -140,7 +141,7 @@ class DateSelector extends StatelessWidget {
               lastDate: DateTime(2023, 8, 1),
             ).then((date) {
               if (date != null) {
-                context.read<TripModel>().departure = date;
+                //TODO: context.read<TripModel>().departure = date;
               }
             }),
             child: Text(
@@ -162,7 +163,7 @@ class DateSelector extends StatelessWidget {
               initialDate: endDate,
               firstDate: DateTime(2023, 1, 1),
               lastDate: DateTime(2023, 8, 1),
-            ).then((date) => context.read<TripModel>().arrival = date!),
+            ).then((date) {}/* TODO => context.read<TripModel>().arrival = date! */),
             child: Text(
               DateFormat.Md().format(endDate),
               style: dateStyle,

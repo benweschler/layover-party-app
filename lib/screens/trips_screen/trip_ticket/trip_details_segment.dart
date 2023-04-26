@@ -63,7 +63,10 @@ class _AirportRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final airportCodes = trip.flights.map((flight) => flight.destination.code);
+    final airportCodes = trip.flights
+        .map((flight) => flight.origin.code)
+        .toList()
+      ..add(trip.flights.last.destination.code);
     final codeStyle = TextStyles.body1.copyWith(
       color: AppColors.of(context).primary,
       fontWeight: FontWeight.w600,

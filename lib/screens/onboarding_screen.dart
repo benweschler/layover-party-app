@@ -154,7 +154,7 @@ class OnboardingScreen extends StatelessWidget {
                 ],
               ),
               Align(
-                alignment: const Alignment(0, -0.3),
+                alignment: const Alignment(0, -0.4),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: Insets.xl),
                   child: Image.asset(illustrationPath),

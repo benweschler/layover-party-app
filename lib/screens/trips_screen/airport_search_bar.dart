@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:layover_party/models/trip_model.dart';
 import 'package:layover_party/screens/trips_screen/select_airport_modal.dart';
 import 'package:layover_party/styles/styles.dart';
 import 'package:layover_party/utils/navigator_utils.dart';
 import 'package:layover_party/widgets/buttons/responsive_buttons.dart';
-import 'package:provider/provider.dart';
 
 import 'floating_entry_decoration.dart';
 
@@ -26,9 +24,8 @@ class AirportSearchBar extends StatelessWidget {
               const SelectAirportModal(UpdatedAirport.origin),
             ),
             child: Text(
-              context.select<TripModel, String>(
-                    (model) => model.originCode,
-              ),
+              //TODO: fix
+              'ORG',
               style: TextStyles.body2.copyWith(fontWeight: FontWeight.w600),
             ),
           ),
@@ -40,9 +37,8 @@ class AirportSearchBar extends StatelessWidget {
               const SelectAirportModal(UpdatedAirport.destination),
             ),
             child: Text(
-              context.select<TripModel, String>(
-                    (model) => model.destinationCode,
-              ),
+              //TODO: fix
+            'DES',
               style: TextStyles.body2.copyWith(fontWeight: FontWeight.w600),
             ),
           ),

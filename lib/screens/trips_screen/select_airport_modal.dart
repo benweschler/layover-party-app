@@ -45,10 +45,10 @@ class _SelectAirportModalState extends State<SelectAirportModal> {
 
                 switch (widget.updatedAirport) {
                   case UpdatedAirport.origin:
-                    tripModel.originCode = _controller.value.text;
+                    //TODO: tripModel.originCode = _controller.value.text;
                     break;
                   case UpdatedAirport.destination:
-                    tripModel.destinationCode = _controller.value.text;
+                    //TODO: tripModel.destinationCode = _controller.value.text;
                     break;
                 }
 
