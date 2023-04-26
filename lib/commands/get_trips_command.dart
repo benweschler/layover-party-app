@@ -10,7 +10,7 @@ import 'package:layover_party/data/layover/layover.dart';
 import 'package:layover_party/data/trip/trip.dart';
 
 abstract class GetTripsCommand {
-  static const int _page = 2;
+  static const int _page = 1;
 
   static Future<List<Trip>> run(
     String authToken,

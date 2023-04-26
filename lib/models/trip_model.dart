@@ -3,7 +3,7 @@ import 'package:layover_party/utils/easy_notifier.dart';
 
 class TripModel extends EasyNotifier {
   String _originCode = 'SFO';
-  String _destinationCode = 'LAX';
+  String _destinationCode = 'HAN';
   DateTime _departureDate = DateTime.now().add(const Duration(days: 1));
   DateTime _arrivalDate = DateTime.now().add(const Duration(days: 14));
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:layover_party/screens/trips_screen/select_airport_modal.dart';
+import 'package:intl/intl.dart';
+import 'package:layover_party/models/trip_model.dart';
 import 'package:layover_party/styles/styles.dart';
-import 'package:layover_party/utils/navigator_utils.dart';
-import 'package:layover_party/widgets/buttons/responsive_buttons.dart';
+import 'package:provider/provider.dart';
 
 import 'floating_entry_decoration.dart';
 
@@ -11,38 +11,50 @@ class AirportSearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textStyle = TextStyles.body2.copyWith(fontWeight: FontWeight.w600);
+    final tripModel = context.read<TripModel>();
+
     return Container(
       padding: const EdgeInsets.symmetric(
         vertical: Insets.sm,
         horizontal: Insets.lg,
       ),
       decoration: floatingEntryDecoration,
-      child: Row(
-        children: [
-          ResponsiveStrokeButton(
-            onTap: () => context.showModal(
-              const SelectAirportModal(UpdatedAirport.origin),
+      child: IntrinsicHeight(
+        child: Row(
+          children: [
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(tripModel.originCode, style: textStyle),
+                  const SizedBox(width: Insets.sm),
+                  const Icon(Icons.arrow_forward),
+                  const SizedBox(width: Insets.sm),
+                  Text(tripModel.destinationCode, style: textStyle),
+                ],
+              ),
             ),
-            child: Text(
-              //TODO: fix
-              'ORG',
-              style: TextStyles.body2.copyWith(fontWeight: FontWeight.w600),
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.calendar_today_outlined),
+                  const SizedBox(width: Insets.sm),
+                  Text(
+                    DateFormat.Md().format(tripModel.departureDate),
+                    style: textStyle,
+                  ),
+                  const SizedBox(width: Insets.xs),
+                  Text('-', style: textStyle),
+                  const SizedBox(width: Insets.xs),
+                  Text(DateFormat.Md().format(tripModel.arrivalDate),
+                      style: textStyle),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(width: Insets.sm),
-          const Icon(Icons.arrow_forward),
-          const SizedBox(width: Insets.sm),
-          ResponsiveStrokeButton(
-            onTap: () => context.showModal(
-              const SelectAirportModal(UpdatedAirport.destination),
-            ),
-            child: Text(
-              //TODO: fix
-            'DES',
-              style: TextStyles.body2.copyWith(fontWeight: FontWeight.w600),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
