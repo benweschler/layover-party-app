@@ -14,7 +14,7 @@ class CustomInputDecoration extends InputDecoration {
           filled: true,
           fillColor: colors.largeSurface,
           errorStyle: TextStyles.caption.copyWith(
-            color: colors.primary,
+            color: colors.errorContent,
             fontWeight: FontWeight.w500,
             height: showEmptyErrorText ? null : 0,
           ),

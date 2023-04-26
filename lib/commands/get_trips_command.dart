@@ -88,7 +88,6 @@ abstract class GetTripsCommand {
       print(
         'TRIP: ${trip.flights.map((flight) => flight.origin.city).toList()..add(trip.flights.last.destination.city)}',
       );
-      print('');
     }
 
     return tripList;
