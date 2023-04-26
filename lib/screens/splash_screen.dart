@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:layover_party/bootstrapper.dart';
@@ -8,13 +10,27 @@ import 'package:layover_party/styles/theme.dart';
 import 'package:layover_party/widgets/loading_indicator.dart';
 import 'package:provider/provider.dart';
 
-class SplashScreen extends StatelessWidget {
+// Use StatefulWidget; state is considered to be whether initializeApp has been
+// called.
+class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    initializeApp(context);
+  State<SplashScreen> createState() => _SplashScreenState();
+}
 
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Schedule microtask as initializing calls
+    // dependOnInheritedWidgetOfExactType, which can't be called before
+    // initState completes.
+    scheduleMicrotask(() => initializeApp(context));
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: LoadingIndicator(
@@ -31,19 +47,27 @@ class SplashScreen extends StatelessWidget {
         appModel: context.read<AppModel>(),
         tripModel: context.read<TripModel>(),
       ).run();
-    } catch (e) {
-      debugPrint('Caught initialization error: $e');
+    } catch (error, stackTrace) {
+      debugPrint('Caught initialization error: $error');
+      debugPrint('Stack trace:\n$stackTrace');
       showDialog(
         context: context,
         //TODO: change to custom dialog
         builder: (_) => AlertDialog(
           title: const Text('Network Error'),
           content: const Text(
-            'We\'re having trouble contacting the server. Check your'
-            'network connect and click retry, and if everything looks okay, make'
-            'sure to reach out to support.',
+            'We\'re having trouble contacting the server. Check your '
+            'network connect and click retry, and if everything looks okay, '
+            'make sure to reach out to support.',
           ),
           actions: [
+            ElevatedButton(
+              onPressed: () {
+                context.read<AppModel>().isLoggedIn = false;
+                context.pop();
+              },
+              child: const Text('Back to Login'),
+            ),
             ElevatedButton(
               onPressed: () async {
                 context.pop();
@@ -54,7 +78,7 @@ class SplashScreen extends StatelessWidget {
                 initialize();
               },
               child: const Text('Retry'),
-            )
+            ),
           ],
         ),
       );
