@@ -1,0 +1,26 @@
+name: Build for supported platforms
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Nix environment
+        uses: diamondburned/cache-install@main
+        with:
+          shell-file: shell.nix
+
+      - name: Build for Web
+        run: flutter build web
+
+      - name: Build for Android
+        run: flutter build apk --target-platform android-arm64
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: build
