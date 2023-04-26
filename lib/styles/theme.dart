@@ -14,7 +14,6 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color largeSurface;
   final Color neutralContent;
   final Color dividerColor;
-  final Color tabHighlightColor;
   final Color responsiveOverlayColor;
   final neutralOnContainer = const Color(0x99FFFFFF);
   final dividerOnContainer = const Color(0x4DFFFFFF);
@@ -28,7 +27,6 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.textColor,
     required this.neutralContent,
     required this.dividerColor,
-    required this.tabHighlightColor,
     required this.responsiveOverlayColor,
     required this.cardColor,
     required this.isDark,
@@ -44,7 +42,6 @@ class AppColors extends ThemeExtension<AppColors> {
           largeSurface: Colors.black.withOpacity(0.04),
           neutralContent: Colors.black.withOpacity(0.5),
           dividerColor: const Color(0xFFCAC4D0),
-          tabHighlightColor: _primaryPurple.withOpacity(0.2),
           responsiveOverlayColor: Colors.white.withOpacity(0.5),
           cardColor: Colors.white,
           isDark: false,
@@ -57,7 +54,6 @@ class AppColors extends ThemeExtension<AppColors> {
           largeSurface: Colors.white.withOpacity(0.04),
           neutralContent: Colors.white.withOpacity(0.5),
           dividerColor: const Color(0xFF49454F),
-          tabHighlightColor: _primaryPurple.withOpacity(0.4),
           responsiveOverlayColor: Colors.black.withOpacity(0.5),
           cardColor: Colors.white,
           isDark: true,
@@ -97,7 +93,6 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? neutralContent,
     Color? scaffoldBackgroundColor,
     Color? dividerColor,
-    Color? tabHighlightColor,
     Color? responsiveOverlayColor,
     Color? cardColor,
     bool? isDark,
@@ -109,7 +104,6 @@ class AppColors extends ThemeExtension<AppColors> {
       largeSurface: largeSurface ?? this.largeSurface,
       neutralContent: neutralContent ?? this.neutralContent,
       dividerColor: dividerColor ?? this.dividerColor,
-      tabHighlightColor: tabHighlightColor ?? this.tabHighlightColor,
       responsiveOverlayColor: responsiveOverlayColor ?? this.responsiveOverlayColor,
       cardColor: cardColor ?? this.cardColor,
       isDark: isDark ?? this.isDark,
@@ -127,7 +121,6 @@ class AppColors extends ThemeExtension<AppColors> {
       largeSurface: Color.lerp(largeSurface, other.largeSurface, t)!,
       neutralContent: Color.lerp(neutralContent, other.neutralContent, t)!,
       dividerColor: Color.lerp(dividerColor, other.dividerColor, t)!,
-      tabHighlightColor: Color.lerp(tabHighlightColor, other.tabHighlightColor, t)!,
       responsiveOverlayColor: Color.lerp(responsiveOverlayColor, other.responsiveOverlayColor, t)!,
       cardColor: Color.lerp(cardColor, other.cardColor, t)!,
       isDark: t < 0.5 ? isDark : other.isDark,
