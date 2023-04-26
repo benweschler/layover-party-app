@@ -32,7 +32,7 @@ abstract class GetTripsCommand {
 
     final Response response = await get(
       url,
-      headers: {HttpHeaders.authorizationHeader: authToken},
+      headers: {HttpHeaders.authorizationHeader: 'Bearer $authToken'},
     );
 
     final networkResultJson = jsonDecode(response.body) as List<dynamic>;

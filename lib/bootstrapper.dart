@@ -11,10 +11,10 @@ class Bootstrapper {
   Future<void> run() async {
     tripModel.trips = await GetTripsCommand.run(
       appModel.user.authToken,
-      'SFO',
-      'LAX',
-      DateTime.now().add(const Duration(days: 1)),
-      DateTime.now().add(const Duration(days: 14)),
+      tripModel.originCode,
+      tripModel.destinationCode,
+      tripModel.departureDate,
+      tripModel.arrivalDate,
     );
 
     appModel.isInitialized = true;
