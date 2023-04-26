@@ -29,7 +29,7 @@ class AirportSearchBar extends StatelessWidget {
               context.select<TripModel, String>(
                     (model) => model.originCode,
               ),
-              style: TextStyles.body1.copyWith(fontWeight: FontWeight.w600),
+              style: TextStyles.body2.copyWith(fontWeight: FontWeight.w600),
             ),
           ),
           const SizedBox(width: Insets.sm),
@@ -43,7 +43,7 @@ class AirportSearchBar extends StatelessWidget {
               context.select<TripModel, String>(
                     (model) => model.destinationCode,
               ),
-              style: TextStyles.body1.copyWith(fontWeight: FontWeight.w600),
+              style: TextStyles.body2.copyWith(fontWeight: FontWeight.w600),
             ),
           ),
         ],

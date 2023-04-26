@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:layover_party/models/trip_model.dart';
 import 'package:layover_party/screens/forgot_password_screen.dart';
 import 'package:layover_party/screens/login_screen/login_screen.dart';
-import 'package:layover_party/screens/onboarding/onboarding_screen.dart';
+import 'package:layover_party/screens/onboarding_screen.dart';
 import 'package:layover_party/screens/parties_screen.dart';
 import 'package:layover_party/screens/profile_screen/profile_screen.dart';
 import 'package:layover_party/screens/trips_screen/trips_screen.dart';
@@ -43,7 +43,7 @@ class AppRouter {
       routes: [
         AppRoute(
           path: RoutePaths.onboarding,
-          builder: (_) => const OnboardingScreenManager(),
+          builder: (_) => const OnboardingScreenCarousel(),
         ),
         AppRoute(
           path: RoutePaths.splash,

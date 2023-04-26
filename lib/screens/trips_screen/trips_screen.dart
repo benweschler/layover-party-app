@@ -10,13 +10,11 @@ import 'package:layover_party/models/trip_model.dart';
 import 'package:layover_party/screens/trips_screen/trip_ticket/local_theme.dart';
 import 'package:layover_party/screens/trips_screen/trip_ticket/trip_ticket.dart';
 import 'package:layover_party/utils/iterable_utils.dart';
-import 'package:layover_party/utils/navigator_utils.dart';
 import 'package:layover_party/widgets/buttons/async_action_button.dart';
 import 'package:layover_party/widgets/buttons/responsive_buttons.dart';
 import 'package:layover_party/widgets/custom_scaffold.dart';
 import 'package:layover_party/styles/styles.dart';
 import 'package:layover_party/styles/theme.dart';
-import 'package:layover_party/widgets/modal_sheets/modal_sheet.dart';
 import 'package:provider/provider.dart';
 
 import 'airport_search_bar.dart';
@@ -46,13 +44,56 @@ class TripsScreen extends StatelessWidget {
           children: [
             ListView(
               children: [
-                const SizedBox(height: Insets.xl * 4),
+                const SizedBox(height: Insets.med),
                 ...tripList
                     .map<Widget>((trip) => TripTicket(trip))
                     .separate(const SizedBox(height: Insets.lg))
                     .toList()
                   ..add(const SizedBox(height: Insets.xl * 2)),
               ],
+            ),
+            Positioned(
+              top: Insets.med,
+              left: Insets.xl,
+              right: Insets.xl,
+              child: SafeArea(
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const AirportSearchBar(),
+                        DateSelector(
+                          startDate: context.watch<TripModel>().departure,
+                          endDate: context.select<TripModel, DateTime>(
+                                (model) => model.arrival,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: Insets.sm),
+                    AsyncActionButton(
+                      label: 'Refresh Search',
+                      action: () async {
+                        final tripModel = context.read<TripModel>();
+
+                        final pop = context.pop;
+
+                        tripModel.trips = await GetTripsCommand.run(
+                          context.read<AppModel>().user.authToken,
+                          tripModel.originCode,
+                          tripModel.destinationCode,
+                          tripModel.departure,
+                          tripModel.arrival,
+                        );
+
+                        pop();
+                      },
+                      catchError: (e) => print(e),
+                    ),
+                  ],
+                ),
+              ),
             ),
             Positioned(
               top: 0,
@@ -65,93 +106,6 @@ class TripsScreen extends StatelessWidget {
                     width: double.infinity,
                     height: MediaQuery.of(context).viewPadding.top,
                   ),
-                ),
-              ),
-            ),
-            Positioned(
-              top: Insets.med,
-              left: 0,
-              right: 0,
-              child: SafeArea(
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        const AirportSearchBar(),
-                        DateSelector(
-                          startDate: context.watch<TripModel>().departure,
-                          endDate: context.select<TripModel, DateTime>(
-                            (model) => model.arrival,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: ResponsiveButton(
-                        onTap: () => context.showModal(
-                          ModalSheet(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: Insets.offset,
-                                vertical: Insets.lg,
-                              ),
-                              child: AsyncActionButton(
-                                label: 'Search',
-                                action: () async {
-                                  final tripModel = context.read<TripModel>();
-
-                                  final pop = context.pop;
-
-                                  tripModel.trips = await GetTripsCommand.run(
-                                    context.read<AppModel>().user.authToken,
-                                    tripModel.originCode,
-                                    tripModel.destinationCode,
-                                    tripModel.departure,
-                                    tripModel.arrival,
-                                  );
-
-                                  pop();
-                                },
-                                catchError: (e) => print(e),
-                              ),
-                            ),
-                          ),
-                        ),
-                        builder: (overlay) => Container(
-                          margin: const EdgeInsets.symmetric(
-                            vertical: Insets.sm,
-                            horizontal: Insets.offset,
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                              vertical: Insets.xs, horizontal: Insets.med),
-                          decoration: ShapeDecoration(
-                            shape: const StadiumBorder(),
-                            color: Color.alphaBlend(
-                              overlay,
-                              AppColors.of(context).secondary,
-                            ),
-                            shadows: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                blurRadius: 10,
-                                spreadRadius: 1,
-                                offset: const Offset(0, 2),
-                              ),
-                            ],
-                          ),
-                          child: Text(
-                            'Submit',
-                            style: TextStyles.body2.copyWith(
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
                 ),
               ),
             ),
@@ -171,7 +125,7 @@ class DateSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dateStyle = TextStyles.body1.copyWith(fontWeight: FontWeight.w600);
+    final dateStyle = TextStyles.body2.copyWith(fontWeight: FontWeight.w600);
     return Container(
       padding: const EdgeInsets.all(Insets.sm),
       decoration: floatingEntryDecoration,
@@ -184,7 +138,11 @@ class DateSelector extends StatelessWidget {
               initialDate: startDate,
               firstDate: DateTime(2023, 1, 1),
               lastDate: DateTime(2023, 8, 1),
-            ).then((date) => context.read<TripModel>().departure = date!),
+            ).then((date) {
+              if (date != null) {
+                context.read<TripModel>().departure = date;
+              }
+            }),
             child: Text(
               DateFormat.Md().format(startDate),
               style: dateStyle,
@@ -193,7 +151,7 @@ class DateSelector extends StatelessWidget {
           const SizedBox(width: Insets.sm),
           Text(
             '-',
-            style: TextStyles.body1.copyWith(
+            style: TextStyles.body2.copyWith(
               color: AppColors.of(context).neutralContent,
             ),
           ),

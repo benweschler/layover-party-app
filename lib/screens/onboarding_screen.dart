@@ -7,8 +7,8 @@ import 'package:layover_party/widgets/buttons/responsive_buttons.dart';
 import 'package:layover_party/widgets/gooey_carousel/gooey_carousel_plus.dart';
 import 'package:provider/provider.dart';
 
-class OnboardingScreenManager extends StatelessWidget {
-  const OnboardingScreenManager({Key? key}) : super(key: key);
+class OnboardingScreenCarousel extends StatelessWidget {
+  const OnboardingScreenCarousel({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +68,67 @@ class OnboardingScreen extends StatelessWidget {
     required this.index,
   }) : super(key: key);
 
+  Widget _buildGradientBlobs() {
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        Align(
+          alignment: Alignment.topLeft,
+          child: Image.asset(leftBlobPath),
+        ),
+        Align(
+          alignment: Alignment.topRight,
+          child: Image.asset(rightBlobPath),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildContent() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: Insets.lg),
+      child: Column(
+        children: [
+          Expanded(
+            flex: 4,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Center(child: DotPageIndicator(numPages: 3, index: index)),
+                const SizedBox(height: Insets.med),
+                Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: TextStyles.h1.copyWith(
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+                const SizedBox(height: Insets.med),
+                Text(
+                  description,
+                  textAlign: TextAlign.center,
+                  style: TextStyles.h2.copyWith(
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: Insets.xl * 1.5),
+          Expanded(
+            child: index == 2
+                ? UnconstrainedBox(
+                    constrainedAxis: Axis.horizontal,
+                    child: ContinueButton(buttonGradientColors),
+                  )
+                : ContinueArrow(buttonGradientColors),
+          ),
+          const SizedBox(height: Insets.xl),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -79,59 +140,8 @@ class OnboardingScreen extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  Expanded(
-                    child: ClipRect(
-                      child: Stack(
-                        fit: StackFit.expand,
-                        children: [
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Image.asset(leftBlobPath),
-                          ),
-                          Align(
-                            alignment: Alignment.topRight,
-                            child: Image.asset(rightBlobPath),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: Insets.lg),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Center(
-                            child: DotPageIndicator(numPages: 3, index: index),
-                          ),
-                          const SizedBox(height: Insets.med),
-                          Text(
-                            title,
-                            textAlign: TextAlign.center,
-                            style: TextStyles.h1.copyWith(
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
-                          const SizedBox(height: Insets.med),
-                          Text(
-                            description,
-                            textAlign: TextAlign.center,
-                            style: TextStyles.h2.copyWith(
-                              fontWeight: FontWeight.w300,
-                            ),
-                          ),
-                          const SizedBox(height: Insets.xl * 2),
-                          if (index == 2)
-                            ContinueButton(buttonGradientColors)
-                          else
-                            ContinueArrow(buttonGradientColors),
-                          const SizedBox(height: Insets.xl),
-                        ],
-                      ),
-                    ),
-                  ),
+                  Expanded(child: _buildGradientBlobs()),
+                  Expanded(child: _buildContent()),
                 ],
               ),
               Align(
