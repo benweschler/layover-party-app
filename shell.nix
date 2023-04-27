@@ -51,7 +51,7 @@ let
 		licenseAccepted = true;
 	};
 
-	androidComposition = androidEnv.composeAndroidPackages {
+	androidCompositionArgs = {
 		platformVersions = androidPlatforms;
 		abiVersions = androidABIs;
 		systemImageTypes = [ "google_apis" ];
@@ -68,6 +68,8 @@ let
 		];
 	};
 
+	androidComposition = androidEnv.composeAndroidPackages androidCompositionArgs;
+
 	# Shell functions.
 
 	withPlatform = platform: attr:
@@ -81,9 +83,12 @@ pkgs.mkShell rec {
 	buildInputs = with pkgs; [
 		flutter
 		androidComposition.androidsdk
-		# androidComposition.platform-tools
 		gradle_7
 		jdk17_headless
+	];
+
+	packages = with pkgs; [
+		jq
 	];
 
 	CHROME_EXECUTABLE = "${pkgs.google-chrome}/bin/google-chrome-stable";
@@ -92,6 +97,6 @@ pkgs.mkShell rec {
 
 	passthru = {
 		# For convenience.
-		inherit androidComposition;
+		inherit androidComposition androidCompositionArgs;
 	};
 }

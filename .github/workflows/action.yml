@@ -1,4 +1,4 @@
-name: Build for supported platforms
+name: Build and Publish for supported platforms
 
 on: push
 
@@ -19,8 +19,62 @@ jobs:
       - name: Build for Android
         run: flutter build apk --target-platform android-arm64
 
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+      - name: Prepare Uploads
+        run: |
+          mkdir -p uploads
+          for target in build/*; do
+            name=$(basename "$target")
+            tar czvf uploads/$name.tar.gz $target
+          done
+
+      - name: Prepare Nightly Release Notes
+        id: release-notes
+        run: |
+          body=$(cat<<EOF
+          This is a nightly release. It is automatically built from the latest
+          commit on the main branch.
+
+          ### Environment Information
+          
+          #### Flutter
+
+          \`\`\`
+          $(flutter --version)
+          \`\`\`
+
+          #### Google Chrome
+          
+          \`\`\`
+          $(google-chrome-stable --version)
+          \`\`\`
+
+          #### Android SDK
+          
+          SDK Version: \`$(nix-instantiate \
+            --eval --strict \
+            -E '(import ./shell.nix {}).androidComposition.androidsdk.version'
+          )\`
+
+          Environment Configuration:
+          
+          \`\`\`
+          $(nix-instantiate \
+            --eval --strict --json \
+            -E '(import ./shell.nix {}).androidCompositionArgs' \
+            | jq)
+          \`\`\`
+          EOF)
+
+          bodyjson=$(jq --null-input --arg body "$body" '$body')
+          echo "body=$bodyjson" >> $GITHUB_OUTPUT
+
+      - name: Update Nightly release
+        uses: andelf/nightly-release@ce2d0a30db8cf9f3920a4237d6a0b874400710c1
         with:
-          name: build
-          path: build
+          prerelease: true
+          tag_name: nightly
+          files: uploads/*.tar.gz
+          name: Nightly Release
+          body: ${{ steps.release-notes.outputs.body }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
