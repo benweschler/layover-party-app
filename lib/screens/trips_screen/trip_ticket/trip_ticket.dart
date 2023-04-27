@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:layover_party/data/trip/trip.dart';
+import 'package:layover_party/screens/trips_screen/celebration_particles.dart';
 import 'package:layover_party/screens/trips_screen/trip_ticket/trip_details_segment.dart';
 import 'package:layover_party/screens/trips_screen/trip_ticket/trip_preview_segment.dart';
+import 'package:layover_party/styles/styles.dart';
 import 'package:layover_party/widgets/folding_ticket/ticket.dart';
 import 'package:layover_party/widgets/folding_ticket/ticket_segment.dart';
 
@@ -23,7 +26,7 @@ class _TripTicketState extends State<TripTicket> {
       TripSummarySegment(widget.trip, isPreviewSegment: false),
       TripSummarySegment(widget.trip, isPreviewSegment: true),
       TripDetailsSegment(widget.trip),
-      AddTripButton(onTap: () {}),
+      AddTripButton(onTap: _showConfirmationDialog),
     ];
 
     return Ticket(
@@ -33,7 +36,30 @@ class _TripTicketState extends State<TripTicket> {
       middleCard: firstSegments[2],
       bottomCard: firstSegments[3],
       tileHeights:
-      firstSegments.map((widget) => widget.preferredSize.height).toList(),
+          firstSegments.map((widget) => widget.preferredSize.height).toList(),
+    );
+  }
+
+  void _showConfirmationDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => CelebrationParticles(
+        fadeDuration: const Duration(seconds: 2),
+        child: Center(
+          child: GestureDetector(
+            onTap: context.pop,
+            child: Container(
+              width: 200,
+              height: 200,
+              decoration: const BoxDecoration(
+                borderRadius: Corners.medBorderRadius,
+                color: Colors.red,
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
