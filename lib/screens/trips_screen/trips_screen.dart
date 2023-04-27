@@ -9,7 +9,7 @@ import 'package:layover_party/widgets/custom_scaffold.dart';
 import 'package:layover_party/styles/styles.dart';
 import 'package:provider/provider.dart';
 
-import 'airport_search_bar.dart';
+import 'query_search_bar.dart';
 
 class TripsScreen extends StatelessWidget {
   const TripsScreen({Key? key}) : super(key: key);

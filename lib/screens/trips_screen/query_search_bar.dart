@@ -25,8 +25,14 @@ class _QuerySearchBarState extends State<QuerySearchBar>
     duration: Timings.med,
     vsync: this,
   );
-  late final _shadowAnimation =
-      Tween(begin: 0.15, end: 0.3).animate(_controller);
+  late final _shadowAnimation = ColorTween(
+    begin: Colors.black.withOpacity(0.15),
+    end: Colors.black.withOpacity(0.3),
+  ).animate(_controller);
+  late final _backdropAnimation = ColorTween(
+    begin: Colors.transparent,
+    end: Colors.black.withOpacity(0.3),
+  ).animate(_controller);
 
   void _expand() {
     setState(() => _isExpanded = true);
@@ -40,44 +46,44 @@ class _QuerySearchBarState extends State<QuerySearchBar>
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        if (!_isExpanded) {
-          _expand();
-        }
-      },
-      child: AnimatedBuilder(
-        animation: _shadowAnimation,
-        builder: (context, child) {
-          return Container(
-            decoration: BoxDecoration(
-              borderRadius: Corners.smBorderRadius,
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(_shadowAnimation.value),
-                  blurRadius: 10,
-                  spreadRadius: 1,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            child: child,
-          );
-        },
-        child: AnimatedCrossFade(
-          firstChild: const SearchBarPreviewContent(),
-          secondChild: SearchBarExpandedContent(
-            collapseSearchBar: _collapse,
+    return AnimatedBuilder(
+      animation: _shadowAnimation,
+      builder: (context, child) {
+        return BackdropFilter(
+          filter: ColorFilter.mode(
+            _backdropAnimation.value!,
+            BlendMode.modulate,
           ),
-          firstCurve: Curves.ease,
-          secondCurve: Curves.ease,
-          sizeCurve: Curves.ease,
-          duration: Timings.med,
-          crossFadeState: _isExpanded
-              ? CrossFadeState.showSecond
-              : CrossFadeState.showFirst,
-        ),
+          child: GestureDetector(
+            onTap: _isExpanded ? null : _expand,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: Corners.smBorderRadius,
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: _shadowAnimation.value!,
+                    blurRadius: 10,
+                    spreadRadius: 1,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: child,
+            ),
+          ),
+        );
+      },
+      child: AnimatedCrossFade(
+        firstChild: const SearchBarPreviewContent(),
+        secondChild: SearchBarExpandedContent(collapseSearchBar: _collapse),
+        firstCurve: Curves.ease,
+        secondCurve: Curves.ease,
+        sizeCurve: Curves.ease,
+        duration: Timings.med,
+        crossFadeState: _isExpanded
+            ? CrossFadeState.showSecond
+            : CrossFadeState.showFirst,
       ),
     );
   }
@@ -159,12 +165,9 @@ class _SearchBarExpandedContentState extends State<SearchBarExpandedContent> {
     final tripModel = context.read<TripModel>();
 
     tripModel.originCode = _formKey.currentState!.value['origin'];
-    tripModel.destinationCode =
-    _formKey.currentState!.value['destination'];
-    tripModel.departureDate =
-        _formKey.currentState!.value['dates'].start;
-    tripModel.arrivalDate =
-        _formKey.currentState!.value['dates'].end;
+    tripModel.destinationCode = _formKey.currentState!.value['destination'];
+    tripModel.departureDate = _formKey.currentState!.value['dates'].start;
+    tripModel.arrivalDate = _formKey.currentState!.value['dates'].end;
 
     await tripModel.updateTrips(
       context.read<AppModel>().user.authToken,
