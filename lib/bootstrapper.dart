@@ -8,7 +8,7 @@ class Bootstrapper {
   const Bootstrapper({required this.appModel, required this.tripModel});
 
   Future<void> run() async {
-    tripModel.updateTrips(appModel.user.authToken);
+    await tripModel.updateTrips(appModel.user.authToken);
     appModel.isInitialized = true;
   }
 }

@@ -70,6 +70,8 @@ class _QuerySearchBarState extends State<QuerySearchBar>
           secondChild: SearchBarExpandedContent(
             collapseSearchBar: _collapse,
           ),
+          firstCurve: Curves.ease,
+          secondCurve: Curves.ease,
           sizeCurve: Curves.ease,
           duration: Timings.med,
           crossFadeState: _isExpanded

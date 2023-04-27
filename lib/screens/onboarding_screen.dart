@@ -36,7 +36,7 @@ class OnboardingScreenCarousel extends StatelessWidget {
             Color(0xFFA5AEFF),
           ],
           title: 'Exotic Destinations',
-          description: 'Make use of your extra time by exploring new areas',
+          description: 'Make use of your extra time by exploring new areas.',
           index: 1,
         ),
         OnboardingScreen(
@@ -49,7 +49,7 @@ class OnboardingScreenCarousel extends StatelessWidget {
           ],
           title: 'Make new friends',
           description:
-              'Meet like-minded folks also looking for new connections and adventures',
+              'Meet like-minded folks also looking for new connections and adventures.',
           index: 2,
         ),
       ],
@@ -99,12 +99,15 @@ class OnboardingScreen extends StatelessWidget {
       child: Column(
         children: [
           Expanded(
-            flex: 4,
+            child: Center(
+              child: DotPageIndicator(numPages: 3, index: index),
+            ),
+          ),
+          const SizedBox(height: Insets.sm),
+          Expanded(
+            flex: 6,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Center(child: DotPageIndicator(numPages: 3, index: index)),
-                const SizedBox(height: Insets.med),
                 Text(
                   title,
                   textAlign: TextAlign.center,
@@ -123,8 +126,8 @@ class OnboardingScreen extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: Insets.xl * 1.5),
           Expanded(
+            flex: 2,
             child: index == 2
                 ? UnconstrainedBox(
                     constrainedAxis: Axis.horizontal,
@@ -132,7 +135,6 @@ class OnboardingScreen extends StatelessWidget {
                   )
                 : ContinueArrow(buttonGradientColors),
           ),
-          const SizedBox(height: Insets.xl),
         ],
       ),
     );
@@ -149,16 +151,31 @@ class OnboardingScreen extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  Expanded(child: _buildGradientBlobs()),
-                  Expanded(child: _buildContent()),
+                  Flexible(flex: 5, child: _buildGradientBlobs()),
+                  const Spacer(flex: 4),
                 ],
               ),
-              Align(
-                alignment: const Alignment(0, -0.4),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: Insets.xl),
-                  child: Image.asset(illustrationPath),
-                ),
+              Column(
+                children: [
+                  Expanded(
+                    flex: 11,
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: Insets.xl,
+                        ),
+                        child: Image.asset(illustrationPath),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: Insets.med,),
+                  Expanded(
+                    flex: 8,
+                    child: _buildContent(),
+                  ),
+                  const SizedBox(height: Insets.lg),
+                ],
               ),
             ],
           ),
