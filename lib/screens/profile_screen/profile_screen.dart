@@ -57,7 +57,7 @@ class ProfileScreen extends StatelessWidget {
           ),
           const SizedBox(height: Insets.lg),
           Text(
-            'v${Constants.version} — Made with 🦈 and 🎉 in LA',
+            'v${Constants.version} — ${Constants.appEpithet}',
             style: TextStyles.caption.copyWith(
               fontWeight: FontWeight.w600,
             ),
