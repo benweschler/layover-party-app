@@ -75,6 +75,6 @@ jobs:
           tag_name: nightly
           files: uploads/*.tar.gz
           name: Nightly Release
-          body: ${{ steps.release-notes.outputs.body }}
+          body: ${{ fromJSON(steps.release-notes.outputs.body) }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
