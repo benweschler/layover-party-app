@@ -34,21 +34,21 @@ jobs:
           This is a nightly release. It is automatically built from the latest
           commit on the main branch.
 
-          ### Environment Information
+          ## Environment Information
           
-          #### Flutter
+          ### Flutter
 
           \`\`\`
           $(flutter --version)
           \`\`\`
 
-          #### Google Chrome
+          ### Google Chrome
           
           \`\`\`
           $(google-chrome-stable --version)
           \`\`\`
 
-          #### Android SDK
+          ### Android SDK
           
           SDK Version: \`$(nix-instantiate \
             --eval --strict \
