@@ -36,7 +36,7 @@ class OnboardingScreenCarousel extends StatelessWidget {
             Color(0xFFA5AEFF),
           ],
           title: 'Exotic Destinations',
-          description: 'Make use of your extra time by exploring new areas.',
+          description: 'Explore places you\'ve always wanted to every time you travel.',
           index: 1,
         ),
         OnboardingScreen(
@@ -47,9 +47,9 @@ class OnboardingScreenCarousel extends StatelessWidget {
             Color(0xFF3075FA),
             Color(0xFF66C0E0),
           ],
-          title: 'Make new friends',
+          title: 'Meet other Adventurers',
           description:
-              'Meet like-minded folks also looking for new connections and adventures.',
+              'Connect with other travelers with layovers that overlap with yours and have a Layover Party!',
           index: 2,
         ),
       ],
@@ -99,9 +99,7 @@ class OnboardingScreen extends StatelessWidget {
       child: Column(
         children: [
           Expanded(
-            child: Center(
-              child: DotPageIndicator(numPages: 3, index: index),
-            ),
+            child: Center(child: DotPageIndicator(numPages: 3, index: index)),
           ),
           const SizedBox(height: Insets.sm),
           Expanded(
@@ -151,8 +149,8 @@ class OnboardingScreen extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  Flexible(flex: 5, child: _buildGradientBlobs()),
-                  const Spacer(flex: 4),
+                  Flexible(child: _buildGradientBlobs()),
+                  const Spacer(),
                 ],
               ),
               Column(
@@ -169,7 +167,9 @@ class OnboardingScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: Insets.med,),
+                  const SizedBox(
+                    height: Insets.med,
+                  ),
                   Expanded(
                     flex: 8,
                     child: _buildContent(),
