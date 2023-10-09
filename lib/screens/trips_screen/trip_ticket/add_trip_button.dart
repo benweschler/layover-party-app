@@ -42,7 +42,7 @@ class AddTripButton extends StatelessWidget implements TicketSegment {
           ),
           child: Center(
             child: Text(
-              'Go on Trip',
+              'Let\'s Go!',
               style: TextStyles.body2.copyWith(
                 color: Colors.white,
                 fontWeight: FontWeight.w600,

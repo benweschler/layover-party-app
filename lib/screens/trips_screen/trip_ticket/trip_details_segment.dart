@@ -92,7 +92,7 @@ class _AirportRow extends StatelessWidget {
         ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: _buildCodeRow(
+          children: _buildDurationRow(
             AppColors.of(context),
             airportCodes,
             codeStyle,
@@ -102,48 +102,35 @@ class _AirportRow extends StatelessWidget {
     );
   }
 
-  List<Widget> _buildCodeRow(
+  List<Widget> _buildDurationRow(
       AppColors appColors, Iterable<String> airportCodes, TextStyle codeStyle) {
-    final digitStyle = TextStyles.body2.copyWith(
-      color: Colors.black,
-    );
-    final unitStyle = TextStyles.caption.copyWith(
-      color: Colors.black,
-    );
-    final codeWidgets = [
-      ...airportCodes
-          .map<Widget>((code) => Text(
-                code,
-                style: codeStyle.copyWith(color: Colors.transparent),
-              ))
-          .toList()
-    ];
+    final digitStyle = TextStyles.body2.copyWith(color: Colors.black);
+    final unitStyle = TextStyles.caption.copyWith(color: Colors.black);
 
     List<Widget> durationWidgets = trip.flights.map((flight) {
       return Expanded(
         child: Center(
-          child: Text.rich(TextSpan(
-            children: formatDuration(
-              duration: flight.arrival.difference(flight.departure),
-              digitStyle: digitStyle.copyWith(
-                fontWeight: FontWeight.w600,
+          child: Text.rich(
+            TextSpan(
+              children: formatDuration(
+                duration: flight.arrival.difference(flight.departure),
+                digitStyle: digitStyle.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
+                unitStyle: unitStyle,
               ),
-              unitStyle: unitStyle,
             ),
-          )),
+            maxLines: 1,
+          ),
         ),
       );
     }).toList();
 
-    int i = 0;
-
-    return codeWidgets.expand((element) {
-      if (i < codeWidgets.length - 1) {
-        return [element, durationWidgets[i++]];
-      } else {
-        return [element];
-      }
-    }).toList();
+    return [
+      const SizedBox(width: 17),
+      ...durationWidgets,
+      const SizedBox(width: 17),
+    ];
   }
 }
 

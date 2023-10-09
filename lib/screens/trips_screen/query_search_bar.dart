@@ -81,9 +81,8 @@ class _QuerySearchBarState extends State<QuerySearchBar>
         secondCurve: Curves.ease,
         sizeCurve: Curves.ease,
         duration: Timings.med,
-        crossFadeState: _isExpanded
-            ? CrossFadeState.showSecond
-            : CrossFadeState.showFirst,
+        crossFadeState:
+            _isExpanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
       ),
     );
   }
@@ -186,8 +185,17 @@ class _SearchBarExpandedContentState extends State<SearchBarExpandedContent> {
       child: FormBuilder(
         key: _formKey,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
+            Text(
+              'ENTER AN AIRPORT CODE',
+              style: TextStyles.caption.copyWith(
+                color: AppColors.of(context).neutralContent,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: Insets.sm),
             Row(
               children: [
                 Expanded(

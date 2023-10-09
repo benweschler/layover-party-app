@@ -16,7 +16,6 @@ import 'field_names.dart';
 
 class SignUpScreen extends StatelessWidget {
   final GlobalKey<FormBuilderState> _formKey = GlobalKey();
-  final ValueNotifier<String?> _errorNotifier = ValueNotifier(null);
   final GlobalKey<AsyncActionButtonState> _signUpButtonKey = GlobalKey();
 
   SignUpScreen({Key? key}) : super(key: key);

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:layover_party/data/trip/trip.dart';
 import 'package:layover_party/models/trip_model.dart';
 import 'package:layover_party/screens/trips_screen/trip_ticket/trip_ticket.dart';
+import 'package:layover_party/styles/theme.dart';
 import 'package:layover_party/utils/iterable_utils.dart';
 import 'package:layover_party/widgets/custom_scaffold.dart';
 import 'package:layover_party/styles/styles.dart';
@@ -28,6 +29,25 @@ class TripsScreen extends StatelessWidget {
           ListView(
             children: [
               const SizedBox(height: Insets.xl * 2.5),
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: Insets.offset),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: Insets.med,
+                  vertical: Insets.sm,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: Corners.medBorderRadius,
+                  color: AppColors.of(context).primary.withOpacity(0.1),
+                ),
+                child: Text(
+                  'Using sample data since the Layover Party backend is no longer active. Data is not accurate.',
+                  style: TextStyles.body1.copyWith(
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.of(context).primary,
+                  ),
+                ),
+              ),
+              const SizedBox(height: Insets.lg),
               ...tripList
                   .map<Widget>((trip) => TripTicket(trip))
                   .separate(const SizedBox(height: Insets.lg))
@@ -47,9 +67,7 @@ class TripsScreen extends StatelessWidget {
           const SafeArea(
             child: Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: Insets.lg,
-                vertical: Insets.sm
-              ),
+                  horizontal: Insets.lg, vertical: Insets.sm),
               child: QuerySearchBar(),
             ),
           ),

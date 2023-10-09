@@ -84,7 +84,7 @@ class TripSummarySegment extends StatelessWidget implements TicketSegment {
                         unitStyle: unitStyle,
                       ),
                     )),
-                    Text("Total Layover", style: captionStyle),
+                    Text('Total Layover', style: captionStyle),
                   ],
                 ),
               ),
@@ -93,7 +93,7 @@ class TripSummarySegment extends StatelessWidget implements TicketSegment {
                 child: Column(
                   children: [
                     Text('${trip.totalUsers}', style: headingStyle),
-                    Text("Total Partiers", style: captionStyle),
+                    Text('Total Partiers', style: captionStyle),
                   ],
                 ),
               ),

@@ -36,7 +36,7 @@ class OnboardingScreenCarousel extends StatelessWidget {
             Color(0xFFA5AEFF),
           ],
           title: 'Exotic Destinations',
-          description: 'Explore places you\'ve always wanted to every time you travel.',
+          description: 'Explore places you\'ve always wanted to see every time you travel.',
           index: 1,
         ),
         OnboardingScreen(

@@ -59,8 +59,8 @@ class _MainAppScaffoldState extends State<MainAppScaffold> {
                 padding: const EdgeInsets.symmetric(horizontal: Insets.xl),
                 child: SalomonBottomBar(
                   currentIndex: _bottomNavigationTabs.indexWhere(
-                    (tab) => GoRouter.of(context)
-                        .location
+                    (tab) => GoRouterState.of(context)
+                        .matchedLocation
                         .startsWith(tab.rootLocation),
                   ),
                   selectedItemColor: AppColors.of(context).primary,
@@ -90,7 +90,7 @@ class _MainAppScaffoldState extends State<MainAppScaffold> {
   }
 
   void _onItemTapped(BuildContext context, String rootLocation) {
-    if (rootLocation == GoRouter.of(context).location) return;
+    if (rootLocation == GoRouterState.of(context).matchedLocation) return;
     HapticFeedback.lightImpact();
     context.go(rootLocation);
   }

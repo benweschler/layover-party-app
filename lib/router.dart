@@ -87,7 +87,7 @@ class AppRouter {
   }
 
   String? redirectNavigation(BuildContext context, GoRouterState state) {
-    final path = state.subloc;
+    final path = state.matchedLocation;
 
     if(!appModel.isOnboarded) {
       if(path != RoutePaths.onboarding) return RoutePaths.onboarding;

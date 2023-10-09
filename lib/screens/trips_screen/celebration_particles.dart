@@ -63,7 +63,8 @@ class CelebrationParticles extends StatelessWidget {
             if (o.age > 40) particles.removeAt(i);
           }
         },
-      ).stackBelow(child: child),
+        // Center ensures particles cover entire available space.
+      ).stackBelow(child: Center(child: child)),
     );
   }
 }

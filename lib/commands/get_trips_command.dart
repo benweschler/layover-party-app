@@ -58,7 +58,6 @@ abstract class GetTripsCommand {
             ),
             departure: DateTime.parse(flightData['departure']),
             arrival: DateTime.parse(flightData['arrival']),
-            flightNumber: flightData['flightNumber'],
           ),
         );
       }

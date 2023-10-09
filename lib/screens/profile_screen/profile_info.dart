@@ -17,11 +17,11 @@ class ProfileInfo extends StatelessWidget {
           width: 60,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: AppColors.of(context).secondary,
+            color: AppColors.of(context).primary,
           ),
           child: Center(
             child: Text(
-              user.profilePicURL?.substring(0, 3) ?? 'N',
+              user.profilePicURL?.substring(0, 3) ?? 'BW',
               style: TextStyles.h2.copyWith(color: Colors.white),
             ),
           ),

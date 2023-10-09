@@ -42,6 +42,9 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void initializeApp(BuildContext context) async {
+    showPopupDialog({required Widget Function(BuildContext) builder}) =>
+        showDialog(context: context, builder: builder);
+
     try {
       await Bootstrapper(
         appModel: context.read<AppModel>(),
@@ -50,8 +53,7 @@ class _SplashScreenState extends State<SplashScreen> {
     } catch (error, stackTrace) {
       debugPrint('Caught initialization error: $error');
       debugPrint('Stack trace:\n$stackTrace');
-      showDialog(
-        context: context,
+      showPopupDialog(
         //TODO: change to custom dialog
         builder: (_) => AlertDialog(
           title: const Text('Network Error'),

@@ -5,13 +5,11 @@ class Flight {
   final Airport destination;
   final DateTime departure;
   final DateTime arrival;
-  final String flightNumber;
 
   const Flight({
     required this.origin,
     required this.destination,
     required this.departure,
     required this.arrival,
-    required this.flightNumber,
   });
 }
